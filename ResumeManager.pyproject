@@ -1,0 +1,11 @@
+{
+    "files": [
+        "controllers/main_controller.py",
+        "main.py",
+        "ui/profile_form.ui",
+        "utils/__init__.py",
+        "utils/config.py",
+        "utils/db_manager.py",
+        "utils/gspreadsheet.py"
+    ]
+}
