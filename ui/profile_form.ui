@@ -106,7 +106,7 @@
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="page_1">
     <widget class="QFrame" name="photoFrame">
@@ -877,7 +877,7 @@
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLineEdit" name="idNumComboBox">
+     <widget class="QLineEdit" name="idNumLineEdit">
       <property name="geometry">
        <rect>
         <x>80</x>
@@ -887,7 +887,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="idNumConfirmComboBox">
+     <widget class="QLineEdit" name="idNumConfirmLineEdit">
       <property name="geometry">
        <rect>
         <x>80</x>
@@ -914,17 +914,17 @@
     <widget class="QLabel" name="label_23">
      <property name="geometry">
       <rect>
-       <x>630</x>
+       <x>700</x>
        <y>330</y>
        <width>71</width>
-       <height>16</height>
+       <height>20</height>
       </rect>
      </property>
      <property name="text">
       <string>Otro celular</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="cellphoneLineEdit">
+    <widget class="QLineEdit" name="phoneLineEdit">
      <property name="geometry">
       <rect>
        <x>770</x>
@@ -934,12 +934,12 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="otherCellphoneLineEdit">
+    <widget class="QLineEdit" name="otherPhoneLineEdit">
      <property name="geometry">
       <rect>
-       <x>710</x>
+       <x>770</x>
        <y>330</y>
-       <width>231</width>
+       <width>171</width>
        <height>24</height>
       </rect>
      </property>
@@ -1292,7 +1292,7 @@
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLineEdit" name="gradeTitleLineEdit">
+     <widget class="QLineEdit" name="underDegreeLineEdit">
       <property name="geometry">
        <rect>
         <x>180</x>
@@ -1302,7 +1302,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="institutionLineEdit">
+     <widget class="QLineEdit" name="underInstitutionLineEdit">
       <property name="geometry">
        <rect>
         <x>180</x>
@@ -1405,7 +1405,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QFrame" name="postdegreeFrame">
+    <widget class="QFrame" name="degreesFrame">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1433,7 +1433,7 @@
        <string>¿Tiene estudios de postgrado?</string>
       </property>
      </widget>
-     <widget class="QRadioButton" name="pdYesRadioButton">
+     <widget class="QRadioButton" name="degYesRadioButton">
       <property name="geometry">
        <rect>
         <x>190</x>
@@ -1446,7 +1446,7 @@
        <string>Sí</string>
       </property>
      </widget>
-     <widget class="QRadioButton" name="pdNoRadioButton">
+     <widget class="QRadioButton" name="degNoRadioButton">
       <property name="geometry">
        <rect>
         <x>240</x>
@@ -1459,7 +1459,7 @@
        <string>No</string>
       </property>
      </widget>
-     <widget class="QFrame" name="postdregree1Frame">
+     <widget class="QFrame" name="dregree1Frame">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -1474,7 +1474,7 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QComboBox" name="pd1LevelComboBox">
+      <widget class="QComboBox" name="deg1LevelComboBox">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1487,7 +1487,7 @@
         <string>Nivel de postgrado</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="pd1StateComboBox">
+      <widget class="QComboBox" name="deg1StateComboBox">
        <property name="geometry">
         <rect>
          <x>190</x>
@@ -1503,7 +1503,7 @@
         <string>Estado</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="pd1NameLineEdit">
+      <widget class="QLineEdit" name="deg1NameLineEdit">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1530,7 +1530,7 @@
        </property>
       </widget>
      </widget>
-     <widget class="QFrame" name="postdegree2Frame">
+     <widget class="QFrame" name="degree2Frame">
       <property name="geometry">
        <rect>
         <x>320</x>
@@ -1545,7 +1545,7 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QComboBox" name="pd2LevelComboBox">
+      <widget class="QComboBox" name="deg2LevelComboBox">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1558,7 +1558,7 @@
         <string>Nivel de postgrado</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="pd2StateComboBox">
+      <widget class="QComboBox" name="deg2StateComboBox">
        <property name="geometry">
         <rect>
          <x>190</x>
@@ -1574,7 +1574,7 @@
         <string>Estado</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="pd2NameLineEdit">
+      <widget class="QLineEdit" name="deg2NameLineEdit">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1601,7 +1601,7 @@
        </property>
       </widget>
      </widget>
-     <widget class="QFrame" name="postdegree3Frame">
+     <widget class="QFrame" name="degree3Frame">
       <property name="geometry">
        <rect>
         <x>620</x>
@@ -1616,7 +1616,7 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QComboBox" name="pd3LevelComboBox">
+      <widget class="QComboBox" name="deg3LevelComboBox">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1629,7 +1629,7 @@
         <string>Nivel de postgrado</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="pd3StateComboBox">
+      <widget class="QComboBox" name="deg3StateComboBox">
        <property name="geometry">
         <rect>
          <x>190</x>
@@ -1645,7 +1645,7 @@
         <string>Estado</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="pd3NameLineEdit">
+      <widget class="QLineEdit" name="deg3NameLineEdit">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -2193,7 +2193,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QPlainTextEdit" name="profilePlainTextEdit">
+     <widget class="QPlainTextEdit" name="professionalProfilePlainTextEdit">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -2327,7 +2327,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QPlainTextEdit" name="jobDescriptionPlainTextEdit">
+     <widget class="QPlainTextEdit" name="roleDescriptionPlainTextEdit">
       <property name="geometry">
        <rect>
         <x>10</x>

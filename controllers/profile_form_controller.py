@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QWidget, QDialog
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from widgets_controller import LineEditController
+from widgets_controller import LineEditController, PlainTextEditController
 
 from utils.db_manager import DbManager
 
@@ -20,7 +20,8 @@ class ProfileFormController(QDialog):
         self.setup_stacked_widget()
         self.setup_navigation_buttons()
         self.setup_data_buttons()
-        self.setup_options()
+        self.setup_line_edits()
+        self.setup_plain_texts()
         self.update_navigation_buttons()
         self.setWindowTitle("Editar perfil")
     
@@ -63,9 +64,24 @@ class ProfileFormController(QDialog):
         self.form.nextPagePushButton.setEnabled(self.current_page_index < self.form.stackedWidget.count() - 1)
         self.form.navigationLabel.setText(f"Página {self.current_page_index + 1} de {self.form.stackedWidget.count()}")
     
-    def setup_options(self) -> None:
+    def setup_line_edits(self) -> None:
         self.full_name = LineEditController(self.form.fullNameLineEdit, self.data, "full_name")
-        self.email = LineEditController(self.emailLineEdit, self.data, "email")
+        self.email = LineEditController(self.form.emailLineEdit, self.data, "email")
+        self.phone = LineEditController(self.form.phoneLineEdit, self.data, "phone")
+        self.other_phone = LineEditController(self.form.otherPhoneLineEdit, self.data, "other_phone")
+        self.id_num = LineEditController(self.form.idNumLineEdit, self.data, "id_document_number")
+        self.id_num_confirm = LineEditController(self.form.idNumConfirmLineEdit, self.data, "id_document_number_confirmation")
+        self.under_degree = LineEditController(self.form.underDegreeLineEdit, self.data, "undergraduate_degree")
+        self.under_institution = LineEditController(self.form.underInstitutionLineEdit, self.data, "undergraduate_institution")
+        self.degree_1_name = LineEditController(self.form.deg1NameLineEdit, self.data, "degree_1_name")
+        self.degree_2_name = LineEditController(self.form.deg2NameLineEdit, self.data, "degree_2_name")
+        self.degree_3_name = LineEditController(self.form.deg3NameLineEdit, self.data, "degree_3_name")
+        self.linkedin = LineEditController(self.form.linkedInLineEdit, self.data, "linkedin")
+        self.company = LineEditController(self.form.companyLineEdit, self.data, "company")
+    
+    def setup_plain_texts(self) -> None:
+        self.professional_profile = PlainTextEditController(self.form.professionalProfilePlainTextEdit, self.data, "professional_profile")
+        self.role_description = PlainTextEditController(self.form.roleDescriptionPlainTextEdit, self.data, "role_description")
 
     @Slot()
     def next_page(self) -> None:
