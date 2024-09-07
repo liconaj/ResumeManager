@@ -1,4 +1,4 @@
-import sys
+import sys, os
 from utils import Config, DbManager, GSpreadSheet
 from controllers import MainWindowController
 
@@ -17,6 +17,10 @@ if __name__ == "__main__":
     master_sheet = GSpreadSheet(sheet_id, range_name, readonly=False)
 
     db_manager.sync_with_gspreadsheet(master_sheet)
+
+    font_dpi = config.get("FONT_DPI")
+    if font_dpi is not None or font_dpi != "":
+        os.environ["QT_FONT_DPI"] = font_dpi
 
     QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
     app = QApplication(sys.argv)
