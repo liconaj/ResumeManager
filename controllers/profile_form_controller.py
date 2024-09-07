@@ -2,6 +2,10 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile, QIODevice, Qt, Slot
 from PySide6.QtWidgets import QWidget, QDialog
 
+import os, sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from widgets_controller import LineEditController
+
 from utils.db_manager import DbManager
 
 class ProfileFormController(QDialog):
@@ -9,13 +13,14 @@ class ProfileFormController(QDialog):
         super().__init__()
         self.id = id
         self.db_manager = db_manager
-        self.data = self.db_manager.get_profile_by_id(id)
+        self.data = self.db_manager.get_profile_by_id(id).copy()
         self.form = self.load_ui()
         self.setup_profile_title()
         self.setFixedSize(self.form.size())
         self.setup_stacked_widget()
         self.setup_navigation_buttons()
         self.setup_data_buttons()
+        self.setup_options()
         self.update_navigation_buttons()
         self.setWindowTitle("Editar perfil")
     
@@ -57,6 +62,10 @@ class ProfileFormController(QDialog):
         self.form.previousPagePushButton.setEnabled(self.current_page_index > 0)
         self.form.nextPagePushButton.setEnabled(self.current_page_index < self.form.stackedWidget.count() - 1)
         self.form.navigationLabel.setText(f"Página {self.current_page_index + 1} de {self.form.stackedWidget.count()}")
+    
+    def setup_options(self) -> None:
+        self.full_name = LineEditController(self.form.fullNameLineEdit, self.data, "full_name")
+        self.email = LineEditController(self.emailLineEdit, self.data, "email")
 
     @Slot()
     def next_page(self) -> None:

@@ -26,7 +26,7 @@ class Profile(db.Entity):
     id_document_number_confirmation = Optional(str)
     phone = Optional(str)
     other_phone = Optional(str)
-    primary_email = Optional(str)
+    email = Optional(str)
     birth_department = Optional(str)
     birth_municipality = Optional(str)
     residence_department = Optional(str)

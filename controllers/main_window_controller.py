@@ -1,7 +1,6 @@
 from PySide6.QtCore import Slot, QItemSelectionModel, QRegularExpression
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtGui import QIntValidator
-from controllers import profile_form_controller
 from models import ProfilesTableModel, FilteredProfilesModel
 from utils import DbManager
 

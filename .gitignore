@@ -1,10 +1,10 @@
 config.json
 credentials.json
-.qtcreator
+.qtcreator/
 *.pyproject.user
 *_ui.py
 ui_*.py
-
+*.sqlite
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
