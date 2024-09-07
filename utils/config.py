@@ -16,9 +16,9 @@ class Config:
             raise ValueError(f"Error al decodificar el archivo de configuración '{self.config_file}'.")
 
     def get(self, key: str) -> Any:
-        if key not in self.config_data:
-            raise KeyError(f"La clave '{key}' no está presente en el archivo de configuración.")
-        return self.config_data[key]
+        #if key not in self.config_data:
+        #    raise KeyError(f"La clave '{key}' no está presente en el archivo de configuración.")
+        return self.config_data.get(key, None)
 
     def set(self, key: str, value: Any) -> None:
         self.config_data[key] = value
