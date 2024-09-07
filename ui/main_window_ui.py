@@ -59,11 +59,6 @@ class Ui_MainWindow(object):
         self.importProfilePushButton = QPushButton(self.centralwidget)
         self.importProfilePushButton.setObjectName(u"importProfilePushButton")
         self.importProfilePushButton.setGeometry(QRect(770, 20, 91, 31))
-        self.deleteProfilePushButton = QPushButton(self.centralwidget)
-        self.deleteProfilePushButton.setObjectName(u"deleteProfilePushButton")
-        self.deleteProfilePushButton.setEnabled(False)
-        self.deleteProfilePushButton.setGeometry(QRect(680, 550, 131, 31))
-        self.deleteProfilePushButton.setFlat(False)
         self.seeProfilePushButton = QPushButton(self.centralwidget)
         self.seeProfilePushButton.setObjectName(u"seeProfilePushButton")
         self.seeProfilePushButton.setGeometry(QRect(834, 550, 151, 31))
@@ -77,6 +72,9 @@ class Ui_MainWindow(object):
         font = QFont()
         font.setPointSize(10)
         self.resultsLabel.setFont(font)
+        self.deleteProfilePushButton = QPushButton(self.centralwidget)
+        self.deleteProfilePushButton.setObjectName(u"deleteProfilePushButton")
+        self.deleteProfilePushButton.setGeometry(QRect(670, 550, 151, 31))
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -90,9 +88,9 @@ class Ui_MainWindow(object):
         self.advancedSearchLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Buscar", None))
         self.syncPushButton.setText(QCoreApplication.translate("MainWindow", u"Sincronizar", None))
         self.importProfilePushButton.setText(QCoreApplication.translate("MainWindow", u"Importar", None))
-        self.deleteProfilePushButton.setText(QCoreApplication.translate("MainWindow", u"Eliminar", None))
         self.seeProfilePushButton.setText(QCoreApplication.translate("MainWindow", u"Ver perfil", None))
         self.searchItemComboBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Filtrar por columna", None))
         self.resultsLabel.setText(QCoreApplication.translate("MainWindow", u"Resultados", None))
+        self.deleteProfilePushButton.setText(QCoreApplication.translate("MainWindow", u"Eliminar", None))
     # retranslateUi
 

@@ -121,25 +121,6 @@
      <string>Importar</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="deleteProfilePushButton">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>550</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Eliminar</string>
-    </property>
-    <property name="flat">
-     <bool>false</bool>
-    </property>
-   </widget>
    <widget class="QPushButton" name="seeProfilePushButton">
     <property name="geometry">
      <rect>
@@ -185,6 +166,19 @@
     </property>
     <property name="text">
      <string>Resultados</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="deleteProfilePushButton">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>550</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Eliminar</string>
     </property>
    </widget>
   </widget>

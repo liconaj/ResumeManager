@@ -118,3 +118,8 @@ class DbManager:
     @db_session
     def fetch_profiles(self) -> list[dict[str, Any]]:
         return [p.to_dict() for p in Profile.select()]
+    
+    @db_session
+    def get_profile_by_id(self, id: int) -> dict[str, Any]:
+        profile = Profile.get(id=id)
+        return profile.to_dict() if profile else None

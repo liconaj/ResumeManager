@@ -28,14 +28,15 @@ if __name__ == "__main__":
         print(f"Cannot open {ui_file_name}: {ui_file.errorString()}")
         sys.exit(-1)
     loader = QUiLoader()
-    window_ui = loader.load(ui_file)
-    window_ui.setFixedSize(window_ui.size())
+    window = loader.load(ui_file)
+    window.setFixedSize(window.size())
     ui_file.close()
-    if not window_ui:
+    if not window:
         print(loader.errorString())
         sys.exit(-1)
 
-    controller = MainWindowController(window_ui, db_manager)
-    window_ui.show()
+    controller = MainWindowController(window, db_manager)
+    window.setWindowTitle("Banco hojas de vida")
+    window.show()
 
     sys.exit(app.exec())
