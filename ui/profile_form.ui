@@ -106,7 +106,7 @@
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="page_1">
     <widget class="QFrame" name="photoFrame">
@@ -134,33 +134,6 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLabel" name="photoPathLabel">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>130</y>
-        <width>221</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QLabel {
-    color: palette(highlight);
-}</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
-      </property>
-      <property name="text">
-       <string>enlace</string>
-      </property>
-      <property name="openExternalLinks">
-       <bool>true</bool>
-      </property>
-     </widget>
      <widget class="QPushButton" name="importPhotoPushButton">
       <property name="geometry">
        <rect>
@@ -185,6 +158,31 @@
       </property>
       <property name="text">
        <string>Eliminar</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="photoPushButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>130</y>
+        <width>221</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    color: palette(highlight);
+	text-align: left;
+}</string>
+      </property>
+      <property name="text">
+       <string>Imagen de perfil</string>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
@@ -374,28 +372,29 @@
        <string>Hoja de vida</string>
       </property>
      </widget>
-     <widget class="QLabel" name="cvPathLabel">
+     <widget class="QPushButton" name="resumePushButton">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>60</y>
         <width>221</width>
-        <height>16</height>
+        <height>24</height>
        </rect>
       </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="styleSheet">
-       <string notr="true">QLabel {
+       <string notr="true">QPushButton {
     color: palette(highlight);
+	text-align: left;
 }</string>
       </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
-      </property>
       <property name="text">
-       <string>enlace</string>
+       <string>Documento hoja de vida</string>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
@@ -436,6 +435,11 @@
         <height>20</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel {
+	color: palette(background);
+}</string>
+      </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
@@ -443,23 +447,23 @@
        <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
-       <string>Enlace</string>
+       <string>N/A</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_10">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>20</x>
         <y>50</y>
         <width>51</width>
-        <height>16</height>
+        <height>21</height>
        </rect>
       </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="text">
-       <string>Correo</string>
+       <string>Correo:</string>
       </property>
      </widget>
     </widget>
@@ -2148,7 +2152,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="viewLinkedInPushButton">
+    <widget class="QPushButton" name="seeLinkedInPushButton">
      <property name="geometry">
       <rect>
        <x>840</x>

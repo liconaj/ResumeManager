@@ -1,13 +1,12 @@
-from xml.etree.ElementPath import get_parent_map
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile, QIODevice, Slot
 from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit, QFrame, QLabel
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from controllers.fields_controller import CheckBoxesFrameController, ComboBoxController, LineEditController, PlainTextEditController, RadioButtonsFrameController
+from controllers.fields_controller import *
 
-from utils.functions import get_option, match
+from utils.functions import get_option, match, open_link
 from utils.db_manager import DbManager
 
 class ProfileFormController(QDialog):
@@ -17,8 +16,11 @@ class ProfileFormController(QDialog):
         self.db_manager = db_manager
         self.data = self.db_manager.get_profile_by_id(id).copy()
         self.form = self.load_ui()
-        self.setup_profile_title()
         self.setFixedSize(self.form.size())
+
+        self.setup_profile_title()
+        self.setup_labels()
+        self.setup_buttons()
         self.setup_stacked_widget()
         self.setup_navigation_buttons()
         self.setup_data_buttons()
@@ -55,6 +57,16 @@ class ProfileFormController(QDialog):
     def setup_data_buttons(self) -> None:
         self.form.savePushButton.setEnabled(False)
         self.form.discardPushButton.setEnabled(False)
+
+    def setup_labels(self) -> None:
+        forms_email = self.data["email_form"]
+        if forms_email:
+            self.form.formsEmailLabel.setText(forms_email)
+
+    def setup_buttons(self) -> None:
+        self.photo_button = PlainPushButtonController(self.form.photoPushButton, self.data, "photo_name", "photo_link")
+        self.resume_button = PlainPushButtonController(self.form.resumePushButton, self.data, "resume_name", "resume_link")
+        self.form.seeLinkedInPushButton.clicked.connect(lambda : open_link(self.data["linkedin"]))
 
     def show(self) -> None:
         self.exec()

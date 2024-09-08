@@ -2,6 +2,7 @@ import os
 import json
 import re, unicodedata
 from difflib import get_close_matches, SequenceMatcher
+import webbrowser
 from typing import Any
 
 def get_project_root() -> str:
@@ -31,3 +32,7 @@ def get_closest_match(items: list[str], target: str, default_value = "") -> str:
 
 def match(a: str, b: str, threshold: float = 0.9) -> bool:
     return SequenceMatcher(None, normalize_string(a), normalize_string(b)).ratio() >= threshold
+
+def open_link(link: str) -> None:
+    if link:
+        webbrowser.open(link)

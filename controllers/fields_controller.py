@@ -1,7 +1,7 @@
-from PySide6.QtWidgets import QLineEdit, QPlainTextEdit, QComboBox, QFrame, QRadioButton, QCheckBox
+from PySide6.QtWidgets import QLineEdit, QPlainTextEdit, QComboBox, QFrame, QRadioButton, QCheckBox, QPushButton
 from PySide6.QtCore import Slot
 from utils import match, get_closest_match
-from utils.functions import normalize_string
+from utils.functions import normalize_string, open_link
 
 class LineEditController:
     def __init__(self, line_edit: QLineEdit, data: dict, key: str) -> None:
@@ -128,3 +128,28 @@ class CheckBoxesFrameController:
 
     def selected_options(self) -> list[str]:
         return [option for option, checkbox in self.checkboxes.items() if checkbox.isChecked()]
+
+
+class PlainPushButtonController:
+    def __init__(self, push_button: QPushButton, data: dict, key, link_key = "") -> None:
+        self.push_button = push_button
+        self.data = data
+        self.key = key
+        self.link_key = link_key
+        
+        self.push_button.clicked.connect(self.on_clicked)
+        self.update()
+
+    def update(self) -> None:
+        text = self.data[self.key]
+        link = self.data[self.link_key].strip()
+        if link == "":
+            self.push_button.setEnabled(False)
+            self.push_button.setText("N/A")
+        else:
+            self.push_button.setEnabled(True)
+            self.push_button.setText(text)
+    
+    @Slot()
+    def on_clicked(self):
+        open_link(self.data[self.link_key])

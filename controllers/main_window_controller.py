@@ -10,7 +10,7 @@ from profile_form_controller import ProfileFormController
 from warning_dialog_controller import WarningDialogController
 
 class MainWindowController(QMainWindow):
-    column_widths = [15, 130, 200, 10, 200, 150, 200, 150]
+    column_widths = [15, 140, 200, 40, 200, 150, 200, 150]
 
     def __init__(self, window, db_manager: DbManager):
         super().__init__()
