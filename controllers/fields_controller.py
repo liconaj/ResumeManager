@@ -1,8 +1,8 @@
-from re import S
-from PySide6.QtWidgets import QLineEdit, QPlainTextEdit, QComboBox, QFrame, QRadioButton, QCheckBox, QPushButton
-from PySide6.QtCore import Slot
+from PySide6.QtCore import Signal, Slot, QDate, QObject
+from PySide6.QtWidgets import QLineEdit, QPlainTextEdit, QComboBox, QFrame, QRadioButton, QCheckBox, QPushButton, QDateEdit
 from utils import match, get_closest_match
 from utils.functions import get_option, normalize_string, open_link
+
 
 class LineEditController:
     def __init__(self, line_edit: QLineEdit, data: dict, key: str) -> None:
@@ -15,6 +15,7 @@ class LineEditController:
     @Slot(str)
     def on_text_changed(self, text: str) -> None:
         self.data_dict[self.key] = text
+
 
 class PlainTextEditController:
     def __init__(self, plain_text_edit: QPlainTextEdit, data_dict: dict, key: str) -> None:
@@ -71,6 +72,7 @@ class ComboBoxController:
         if self.custom_func is not None:
             self.custom_func(selected_value)
 
+
 class PlaceComboBoxesController:
     def __init__(self, dept_combobox: QComboBox, dept_key: str, city_combobox: QComboBox, city_key: str, data_dict: dict) -> None:
         self.data_dict = data_dict
@@ -86,6 +88,7 @@ class PlaceComboBoxesController:
     def on_dept_selection_changed(self, selected_value: str) -> None:
         options = self.department_cities.get(selected_value, None)
         self.city_combobox.set_options(sorted(options))
+
 
 class RadioButtonsFrameController:
     def __init__(self, frame: QFrame, options: list[str], data_dict: dict, key: str) -> None:
@@ -188,3 +191,35 @@ class PlainPushButtonController:
     @Slot()
     def on_clicked(self):
         open_link(self.data[self.link_key])
+
+
+class DateEditController(QObject):
+    date_changed = Signal(QDate)
+
+    def __init__(self, date_edit: QDateEdit, data_dict: dict, key: str) -> None:
+        super(DateEditController, self).__init__()
+        self.date_edit = date_edit
+        self.data_dict = data_dict
+        self.key = key
+        date_str = self.data_dict.get(self.key, "")
+        self.date_changed_custom_func = None
+        if date_str:
+            try:
+                day, month, year = map(int, date_str.split("/"))
+                date = QDate(year, month, day)
+                self.date_edit.setDate(date)
+            except ValueError:
+                self.date_edit.setDate(QDate.currentDate())  # Establecer fecha actual si hay error
+        else:
+            self.date_edit.setDate(QDate.currentDate())  # Establecer fecha actual si el valor es vacío
+        self.date_edit.dateChanged.connect(self.on_date_changed)
+        self.date_changed.emit(self.date_edit.date())
+    
+    def date(self) -> QDate:
+        return self.date_edit.date()
+
+    @Slot(QDate)
+    def on_date_changed(self, date: QDate) -> None:
+        date_str = date.toString("dd/MM/yyyy")
+        self.data_dict[self.key] = date_str
+        self.date_changed.emit(date)

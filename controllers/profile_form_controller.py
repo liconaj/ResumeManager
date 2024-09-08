@@ -21,6 +21,7 @@ class ProfileFormController(QDialog):
         self.setup_profile_title()
         self.setup_labels()
         self.setup_buttons()
+        self.setup_birth_date()
         self.setup_stacked_widget()
         self.setup_navigation_buttons()
         self.setup_data_buttons()
@@ -159,6 +160,11 @@ class ProfileFormController(QDialog):
     def setup_checkboxes_frame(self) -> None:
         self.motivations = CheckBoxesFrameController(self.form.motivationsFrame, get_option("motivations"), self.data, "motivations")
     
+    def setup_birth_date(self) -> None:
+        self.birth_date = DateEditController(self.form.birthDateEdit, self.data, "birth_date")
+        self.birth_date.date_changed.connect(self.update_age)
+        self.update_age(self.birth_date.date())
+    
     def toggle_subframes(self, radio_buttons_frame: RadioButtonsFrameController, enable_value = "Si") -> None:
         selected_option = radio_buttons_frame.selected_option()
         should_enable = match(selected_option, enable_value)
@@ -169,6 +175,15 @@ class ProfileFormController(QDialog):
     @Slot()
     def next_page(self) -> None:
         self.change_page(1)
+    
+    @Slot(QDate)
+    def update_age(self, date_of_birth: QDate) -> None:
+        today = QDate.currentDate()
+        age = today.year() - date_of_birth.year()
+        if (today.month() < date_of_birth.month()) or \
+           (today.month() == date_of_birth.month() and today.day() < date_of_birth.day()):
+            age -= 1
+        self.form.ageLabel.setText(f"{age} años")
     
     @Slot()
     def previous_page(self) -> None:
