@@ -1,6 +1,13 @@
 import toml
 from typing import Any
 
+_DEFAULT_CONFIG = {
+    "APPLICATION_STYLE": "Fusion",
+    "FONT_DPI": 96,
+    "MASTER_SHEET_ID": "",
+    "MASTER_SHEET_RANGE": "",
+}
+
 class Config:
     def __init__(self, config_file: str = 'config.txt'):
         self.config_file = config_file
@@ -10,7 +17,8 @@ class Config:
         try:
             return toml.load(self.config_file)
         except FileNotFoundError:
-            raise FileNotFoundError(f"El archivo de configuración '{self.config_file}' no se encuentra.")
+            # raise FileNotFoundError(f"El archivo de configuración '{self.config_file}' no se encuentra.")
+            return _DEFAULT_CONFIG
         except toml.TomlDecodeError:
             raise ValueError(f"Error al decodificar el archivo de configuración '{self.config_file}'.")
 
