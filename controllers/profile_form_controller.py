@@ -1,6 +1,6 @@
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile, QIODevice, Slot
-from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit, QFrame, QLabel, QMessageBox
+from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit, QFrame, QLabel
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
