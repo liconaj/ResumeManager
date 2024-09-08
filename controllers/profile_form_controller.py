@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from widgets_controller import ComboBoxController, LineEditController, PlainTextEditController
+from controllers.fields_controller import ComboBoxController, LineEditController, PlainTextEditController
 
 from utils.functions import get_option
 from utils.db_manager import DbManager
