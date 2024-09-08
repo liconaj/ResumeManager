@@ -1,11 +1,12 @@
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile, QIODevice, Qt, Slot
-from PySide6.QtWidgets import QWidget, QDialog
+from PySide6.QtWidgets import QWidget, QDialog, QComboBox
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from widgets_controller import LineEditController, PlainTextEditController
+from widgets_controller import ComboBoxController, LineEditController, PlainTextEditController
 
+from utils.functions import get_option
 from utils.db_manager import DbManager
 
 class ProfileFormController(QDialog):
@@ -22,6 +23,7 @@ class ProfileFormController(QDialog):
         self.setup_data_buttons()
         self.setup_line_edits()
         self.setup_plain_texts()
+        self.setup_comboboxes()
         self.update_navigation_buttons()
         self.setWindowTitle("Editar perfil")
     
@@ -82,6 +84,32 @@ class ProfileFormController(QDialog):
     def setup_plain_texts(self) -> None:
         self.professional_profile = PlainTextEditController(self.form.professionalProfilePlainTextEdit, self.data, "professional_profile")
         self.role_description = PlainTextEditController(self.form.roleDescriptionPlainTextEdit, self.data, "role_description")
+    
+    def _setup_combobox(self, combobox: QComboBox, column: str, option: str = None) -> ComboBoxController:
+        option = column if option is None else option
+        controller = ComboBoxController(combobox, get_option(option), self.data, column)
+        return controller
+
+    def setup_comboboxes(self) -> None:
+        self.id_type = self._setup_combobox(self.form.idTypeComboBox, "id_document_type")
+        self.disability = self._setup_combobox(self.form.disabilityComboBox, "disability_condition")
+        self.english = self._setup_combobox(self.form.englishComboBox, "english_level", "language_level")
+        self.french = self._setup_combobox(self.form.frenchComboBox, "french_level", "language_level")
+        self.portuguese = self._setup_combobox(self.form.portugueseComboBox, "portuguese_level", "language_level")
+        self.other_languages = self._setup_combobox(self.form.otherLanguagesComboBox, "other_languages_level", "language_level")
+        self.degree_1 = self._setup_combobox(self.form.deg1LevelComboBox, "degree_1", "degree")
+        self.degree_1_status = self._setup_combobox(self.form.deg1StatusComboBox, "degree_1_status", "degree_status")
+        self.degree_2 = self._setup_combobox(self.form.deg2LevelComboBox, "degree_2", "degree")
+        self.degree_2_status = self._setup_combobox(self.form.deg2StatusComboBox, "degree_2_status", "degree_status")
+        self.degree_3 = self._setup_combobox(self.form.deg3LevelComboBox, "degree_3", "degree")
+        self.degree_3_status = self._setup_combobox(self.form.deg3StatusComboBox, "degree_3_status", "degree_status")
+        self.mv_program_1 = self._setup_combobox(self.form.mv1NameComboBox, "mv_program_1", "mv_program")
+        self.mv_program_2 = self._setup_combobox(self.form.mv2NameComboBox, "mv_program_2", "mv_program")
+        self.mv_program_3 = self._setup_combobox(self.form.mv3NameComboBox, "mv_program_3", "mv_program")
+        self.sector = self._setup_combobox(self.form.sectorComboBox, "sector")
+        self.role = self._setup_combobox(self.form.roleComboBox, "role")
+        self.experience_sector = self._setup_combobox(self.form.expSectorComboBox, "experience_sector", "sector")
+        self.experience_duration = self._setup_combobox(self.form.expYearsComboBox, "experience_duration")
 
     @Slot()
     def next_page(self) -> None:

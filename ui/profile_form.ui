@@ -1235,7 +1235,7 @@
       <string>Discapacidad</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="discapacityComboBox">
+    <widget class="QComboBox" name="disabilityComboBox">
      <property name="geometry">
       <rect>
        <x>280</x>
@@ -1394,7 +1394,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QComboBox" name="otherIdiomComboBox">
+     <widget class="QComboBox" name="otherLanguagesComboBox">
       <property name="geometry">
        <rect>
         <x>340</x>
@@ -1487,7 +1487,7 @@
         <string>Nivel de postgrado</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="deg1StateComboBox">
+      <widget class="QComboBox" name="deg1StatusComboBox">
        <property name="geometry">
         <rect>
          <x>190</x>
@@ -1558,7 +1558,7 @@
         <string>Nivel de postgrado</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="deg2StateComboBox">
+      <widget class="QComboBox" name="deg2StatusComboBox">
        <property name="geometry">
         <rect>
          <x>190</x>
@@ -1629,7 +1629,7 @@
         <string>Nivel de postgrado</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="deg3StateComboBox">
+      <widget class="QComboBox" name="deg3StatusComboBox">
        <property name="geometry">
         <rect>
          <x>190</x>
@@ -2317,7 +2317,7 @@
        <string>Rol</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="rolComboBox">
+     <widget class="QComboBox" name="roleComboBox">
       <property name="geometry">
        <rect>
         <x>60</x>
