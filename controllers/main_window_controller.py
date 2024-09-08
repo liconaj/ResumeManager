@@ -7,6 +7,7 @@ from utils import DbManager
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from profile_form_controller import ProfileFormController
+from warning_dialog_controller import WarningDialogController
 
 class MainWindowController(QMainWindow):
     column_widths = [15, 130, 200, 10, 200, 150, 200, 150]
@@ -14,18 +15,33 @@ class MainWindowController(QMainWindow):
     def __init__(self, window, db_manager: DbManager):
         super().__init__()
         self.window = window
+        self.window.setWindowTitle("Banco hojas de vida")
         self.db_manager = db_manager
         profiles_data = self.db_manager.fetch_profiles()
+        self.warning_dialog_controller = WarningDialogController(self.window)
         self.profiles_model = ProfilesTableModel(profiles_data)
         self.filtered_profiles_model = FilteredProfilesModel()
         self.filtered_profiles_model.setSourceModel(self.profiles_model)
         self.setup_table()
+        self.setup_sync_button()
         self.setup_see_button()
         self.setup_delete_button()
         self.setup_results_label()
         self.setup_id_search_entry()
         self.adjust_column_widths()
         self.update_results_label()
+
+        self.window.show()
+        self.validate_remote_connection()
+    
+    def validate_remote_connection(self):
+        self.db_manager.gspreadsheet.restart_service()
+        if not self.db_manager.gspreadsheet.available:
+            self.warning_dialog_controller.show_warning_dialog("Advertencia",
+                "No se pudo establecer conexión de la base de datos remoto. Verifique su conexión a internet")
+    
+    def setup_sync_button(self):
+        self.window.syncPushButton.clicked.connect(self.on_sync_button_clicked)
     
     def setup_see_button(self):
         self.window.seeProfilePushButton.setEnabled(False)
@@ -86,6 +102,11 @@ class MainWindowController(QMainWindow):
         visible_rows = self.window.profilesTableView.model().rowCount()
         text = f"Mostrando {visible_rows} de {total_rows} elementos"
         self.window.resultsLabel.setText(text)
+    
+    @Slot()
+    def on_sync_button_clicked(self):
+        self.validate_remote_connection()
+        self.db_manager.synchronize()
     
     @Slot()
     def on_see_profile_button_clicked(self):

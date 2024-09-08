@@ -1,6 +1,8 @@
+import socket
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from typing import Any
+from requests import HTTPError
 
 class GSpreadSheet:
     def __init__(self, sheet_id: str, range_name: str, readonly: bool = True):
@@ -8,12 +10,34 @@ class GSpreadSheet:
         self.range_name = range_name
         self.readonly = readonly
         self.creds = self._get_credentials()
-        self.service = build('sheets', 'v4', credentials=self.creds)
+        self.service = self._get_service()
 
     def _get_credentials(self) -> Credentials:
         readonly_text = ".readonly" if self.readonly else ""
         scopes = [f'https://www.googleapis.com/auth/spreadsheets{readonly_text}']
         return Credentials.from_service_account_file('credentials.json', scopes=scopes)
+    
+    def _get_service(self):
+        self.available = True
+        if not self._check_internet_connection():
+            self.available = False
+            return None
+        try:
+            return build('sheets', 'v4', credentials=self.creds)
+        except HTTPError as e:
+            self.available = False
+
+    def _check_internet_connection(self) -> bool:
+        try:
+            socket.create_connection(("8.8.8.8", 53), timeout=5)
+            return True
+        except OSError:
+            return False
+    
+    def restart_service(self) -> bool:
+        if not self.available:
+            self.service = self._get_service()
+        return self.available
 
     def get_raw_data(self) -> list[list[Any]]:
         sheet = self.service.spreadsheets()

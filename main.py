@@ -4,23 +4,33 @@ from controllers import MainWindowController
 
 from PySide6 import QtCore
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QMessageBox
 from PySide6.QtCore import QFile, QIODevice, QCoreApplication
 
-if __name__ == "__main__":
+def show_error_dialog(message: str):
+    error_dialog = QMessageBox()
+    error_dialog.setIcon(QMessageBox.Critical)
+    error_dialog.setText(message)
+    error_dialog.setWindowTitle("Error")
+    error_dialog.setStandardButtons(QMessageBox.Ok)
+    if error_dialog.exec() == QMessageBox.Ok:
+        QCoreApplication.quit()
+        sys.exit()
 
+if __name__ == "__main__":
     config = Config()
     db_manager = DbManager()
+
+    font_dpi = config.get("FONT_DPI")
+    if font_dpi is not None or font_dpi != "":
+        print(f"[ENVIRONMENT] Setting QT_FONT_DPI to {font_dpi}")
+        os.environ["QT_FONT_DPI"] = str(font_dpi)
 
     sheet_id = config.get("MASTER_SHEET_ID")
     range_name = config.get("MASTER_SHEET_RANGE")
     master_sheet = GSpreadSheet(sheet_id, range_name, readonly=False)
-
-    db_manager.sync_with_gspreadsheet(master_sheet)
-
-    font_dpi = config.get("FONT_DPI")
-    if font_dpi is not None or font_dpi != "":
-        os.environ["QT_FONT_DPI"] = font_dpi
+    db_manager.set_gspreadsheet(master_sheet)
+    db_manager.synchronize()
 
     QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
     app = QApplication(sys.argv)
@@ -40,7 +50,5 @@ if __name__ == "__main__":
         sys.exit(-1)
 
     controller = MainWindowController(window, db_manager)
-    window.setWindowTitle("Banco hojas de vida")
-    window.show()
 
     sys.exit(app.exec())

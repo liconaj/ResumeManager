@@ -1,3 +1,4 @@
+from multiprocessing.managers import ValueProxy
 from pony.orm import Database, Required, Optional, PrimaryKey, db_session
 from typing import Any
 
@@ -78,28 +79,37 @@ db.generate_mapping(create_tables=True)
 
 class DbManager:
     def __init__(self):
-        pass
+        self.gspreadsheet = None
+
+    def set_gspreadsheet(self, gspreadsheet: GSpreadSheet):
+        self.gspreadsheet = gspreadsheet
 
     @db_session
-    def sync_with_gspreadsheet(self, gspreadsheet: GSpreadSheet):
+    def synchronize(self):
+        if self.gspreadsheet is None:
+            raise ValueError("Variable gspreadsheet no establecido")
+        self.gspreadsheet.restart_service()
+        if not self.gspreadsheet.available:
+            print("[DB_MANAGER] No se pudo establecer conexión con la base de datos remota")
+            return
+    
         # Obtén los datos de Google Sheets como una lista de diccionarios
-        sheet_data: list[dict[str, Any]] = gspreadsheet.fetch_data()
+        sheet_data: list[dict[str, Any]] = self.gspreadsheet.fetch_data()
         local_data = self.fetch_profiles()
 
         sheet_row_count = len(sheet_data)
         local_row_count = len(local_data)
 
         if sheet_row_count > local_row_count:
-            self._update_local_db(sheet_data)
+            self._update_local_db()
             print("[DB_MANAGER] Actualizando datos locales")
-        elif local_row_count > sheet_row_count:
-            self._update_gspreadsheet(gspreadsheet)
-            print("[DB_MANAGER] Actualizando datos en la nube")
         else:
-            print("[DB_MANAGER] Base de datos está actualizada")
+            self._update_gspreadsheet()
+            print("[DB_MANAGER] Actualizando datos en la nube")
 
     @db_session
-    def _update_local_db(self, data: list[dict[str, Any]]):
+    def _update_local_db(self):
+        data: list[dict[str, Any]] = self.gspreadsheet.fetch_data()
         for item in data:
             profile = Profile.get(id=item.get('id'))
             if not profile:
@@ -110,10 +120,10 @@ class DbManager:
         print("[DB_MANAGER] Numero de entradas:", Profile.select().count())
 
     @db_session
-    def _update_gspreadsheet(self, google_sheet: GSpreadSheet):
-        headers = Profile._columns_.keys()
+    def _update_gspreadsheet(self):
+        headers = Profile._columns_
         values: list[list[Any]] = [list(headers)] + [[getattr(profile, header, "") for header in headers] for profile in Profile.select()]
-        google_sheet.update_sheet(values)
+        self.gspreadsheet.update_sheet(values)
 
     @db_session
     def fetch_profiles(self) -> list[dict[str, Any]]:
