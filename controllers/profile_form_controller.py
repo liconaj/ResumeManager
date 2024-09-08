@@ -30,6 +30,7 @@ class ProfileFormController(QDialog):
         self.setup_comboboxes()
         self.setup_radio_buttons_frames()
         self.setup_checkboxes_frame()
+        self.setup_photo()
         self.update_navigation_buttons()
         self.setWindowTitle("Editar perfil")
     
@@ -165,6 +166,9 @@ class ProfileFormController(QDialog):
         self.birth_date.date_changed.connect(self.update_age)
         self.update_age(self.birth_date.date())
     
+    def setup_photo(self) -> None:
+        self.photo = GraphicsViewController(self.form.photoGraphicsView, self.data, "photo_link")
+
     def toggle_subframes(self, radio_buttons_frame: RadioButtonsFrameController, enable_value = "Si") -> None:
         selected_option = radio_buttons_frame.selected_option()
         should_enable = match(selected_option, enable_value)

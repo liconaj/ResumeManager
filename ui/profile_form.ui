@@ -124,7 +124,7 @@
      <property name="frameShadow">
       <enum>QFrame::Sunken</enum>
      </property>
-     <widget class="QGraphicsView" name="graphicsView">
+     <widget class="QGraphicsView" name="photoGraphicsView">
       <property name="geometry">
        <rect>
         <x>10</x>

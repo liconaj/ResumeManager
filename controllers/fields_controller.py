@@ -1,7 +1,12 @@
-from PySide6.QtCore import Signal, Slot, QDate, QObject
+import requests
+from io import BytesIO
+from PySide6.QtGui import QPixmap, QFont
+from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QGraphicsTextItem
+from PySide6.QtCore import Signal, Slot, QDate, QObject, Qt, QThread
 from PySide6.QtWidgets import QLineEdit, QPlainTextEdit, QComboBox, QFrame, QRadioButton, QCheckBox, QPushButton, QDateEdit
 from utils import match, get_closest_match
 from utils.functions import get_option, normalize_string, open_link
+
 
 
 class LineEditController:
@@ -50,6 +55,7 @@ class ComboBoxController:
             self.options = [self.null_option] + options
             self.combo_box.addItems(self.options)
         self.update()
+        self.combo_box.setMaxVisibleItems = 10
     
     def update(self) -> None:
         if self.options is None:
@@ -223,3 +229,87 @@ class DateEditController(QObject):
         date_str = date.toString("dd/MM/yyyy")
         self.data_dict[self.key] = date_str
         self.date_changed.emit(date)
+
+
+class ImageWorker(QObject):
+    image_loaded = Signal(QPixmap)  # Señal emitida cuando se carga la imagen
+
+    def __init__(self, image_url: str) -> None:
+        super().__init__()
+        self.image_url = image_url
+
+    def run(self) -> None:
+        try:
+            response = requests.get(self.image_url)
+            response.raise_for_status()
+            image_data = BytesIO(response.content)
+            pixmap = QPixmap()
+            pixmap.loadFromData(image_data.read())
+            self.image_loaded.emit(pixmap)
+        except requests.RequestException as e:
+            print(f"Error downloading image: {e}")
+
+
+class GraphicsViewController:
+    def __init__(self, graphics_view: QGraphicsView, data_dict: dict, key: str) -> None:
+        self.graphics_view = graphics_view
+        self.data_dict = data_dict
+        self.key = key
+        self.scene = QGraphicsScene(self.graphics_view)
+        self.graphics_view.setScene(self.scene)
+        image_url = self.get_image_url(self.data_dict.get(self.key, ""))
+        if not image_url:
+            return
+        self.show_loading_text()
+        self.thread = QThread()
+        self.worker = ImageWorker(image_url)
+        self.worker.moveToThread(self.thread)
+        self.thread.started.connect(self.worker.run)
+        self.worker.image_loaded.connect(self.display_image)
+        self.worker.image_loaded.connect(self.thread.quit)
+        self.thread.start()
+
+    def show_loading_text(self):
+        # Mostrar "Cargando..." en el centro del QGraphicsView
+        loading_text_item = QGraphicsTextItem("Cargando...")
+        font = QFont("Arial", 16)
+        loading_text_item.setFont(font)
+        
+        # Añadir el texto a la escena
+        self.scene.addItem(loading_text_item)
+        
+        # Centrar el texto
+        rect = self.graphics_view.viewport().rect()
+        loading_text_item.setPos(rect.width() / 2 - loading_text_item.boundingRect().width() / 2,
+                                 rect.height() / 2 - loading_text_item.boundingRect().height() / 2)
+
+    def get_image_url(self, drive_url: str) -> str:
+        if 'drive.google.com' in drive_url:
+            try:
+                file_id = drive_url.split('/d/')[1].split('/')[0]
+                return f"https://drive.google.com/uc?export=download&id={file_id}"
+            except IndexError:
+                print(drive_url)
+                print("[GRAPHICS_VIEW_CONTROLLER] Invalid Google Drive URL")
+        return ""
+
+    def load_image(self, image_url: str) -> None:
+        try:
+            response = requests.get(image_url)
+            response.raise_for_status()
+            image_data = BytesIO(response.content)
+            pixmap = QPixmap()
+            if pixmap.loadFromData(image_data.read()):
+                self.display_image(pixmap)
+            else:
+                print("Failed to load the image.")
+        except requests.RequestException as e:
+            print(f"Error downloading image: {e}")
+
+    @Slot(QPixmap)
+    def display_image(self, pixmap: QPixmap) -> None:
+        self.scene.clear()
+        pixmap_item = QGraphicsPixmapItem(pixmap)
+        self.scene.addItem(pixmap_item)
+        self.graphics_view.fitInView(pixmap_item, Qt.KeepAspectRatioByExpanding)
+        self.graphics_view.setAlignment(Qt.AlignCenter)
