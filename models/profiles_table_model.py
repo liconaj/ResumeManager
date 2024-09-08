@@ -1,5 +1,6 @@
 from PySide6.QtCore import QAbstractTableModel, QObject, Qt, QModelIndex
 from typing import Any
+from utils import calc_age
 
 _view_headers = {
     "id": "ID",
@@ -16,10 +17,25 @@ _view_headers = {
 class ProfilesTableModel(QAbstractTableModel):
     def __init__(self, data: list[dict[str,Any]], parent=None) -> None:
         super().__init__(parent)
+        self.original_data = data
         self._headers = list(_view_headers.values())
+        self.load_data()
+        
+    def load_data(self):
         self._data = []
-        for item in data:
-            self._data.append([item[k] for k in _view_headers])
+        for item in self.original_data:
+            row = []
+            for k in _view_headers:
+                if k == "age":
+                    value = calc_age(item["birth_date"])
+                else:
+                    value = str(item[k])
+                row.append(value)
+            self._data.append(row)
+    
+    def update_data(self, new_data):
+        self.original_data = new_data
+        self.load_data()
     
     def data(self, index: QModelIndex, role):
         if role == Qt.DisplayRole:

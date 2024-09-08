@@ -4,7 +4,6 @@ from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit, QFrame, QLabel
 
 import os, sys
 
-from utils import db_manager
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from fields_controller import *
 from message_box_controller import MessageBoxController

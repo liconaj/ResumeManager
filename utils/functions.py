@@ -4,7 +4,6 @@ import re, unicodedata
 from difflib import get_close_matches, SequenceMatcher
 from datetime import datetime
 import webbrowser
-from typing import Any
 
 def get_project_root() -> str:
     """Devuelve la ruta absoluta a la raíz del proyecto."""
@@ -40,3 +39,16 @@ def open_link(link: str) -> None:
 
 def gen_list_of_years(start: int, end: int = datetime.now().year):
     return [str(year) for year in range(end, start-1, -1)]
+
+def calc_age(birthdate_str: str) -> str:
+    if not birthdate_str:
+        return ""
+    try:
+        birthdate = datetime.strptime(birthdate_str, "%d/%m/%Y")
+    except:
+        birthdate = datetime.strptime("1/11/1111", "%d/%m/%Y")
+    today = datetime.today()
+    age = today.year - birthdate.year
+    if (today.month, today.day) < (birthdate.month, birthdate.day):
+        age -= 1
+    return str(age)

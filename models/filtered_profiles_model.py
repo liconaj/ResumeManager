@@ -1,4 +1,3 @@
-import math
 from PySide6.QtCore import QSortFilterProxyModel, QRegularExpression, Qt
 
 class FilteredProfilesModel(QSortFilterProxyModel):

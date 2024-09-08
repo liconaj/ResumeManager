@@ -17,11 +17,8 @@ class MainWindowController(QMainWindow):
         self.window = window
         self.window.setWindowTitle("Banco hojas de vida")
         self.db_manager = db_manager
-        profiles_data = self.db_manager.fetch_profiles()
-        self.warning_dialog_controller = WarningDialogController(self.window)
-        self.profiles_model = ProfilesTableModel(profiles_data)
-        self.filtered_profiles_model = FilteredProfilesModel()
-        self.filtered_profiles_model.setSourceModel(self.profiles_model)
+        
+        self.load_profiles()
         self.setup_table()
         self.setup_sync_button()
         self.setup_see_button()
@@ -33,6 +30,14 @@ class MainWindowController(QMainWindow):
 
         self.window.show()
         self.validate_remote_connection()
+    
+    def load_profiles(self) -> None:
+        profiles_data = self.db_manager.fetch_profiles()
+        self.warning_dialog_controller = WarningDialogController(self.window)
+        self.profiles_model = ProfilesTableModel(profiles_data)
+        self.filtered_profiles_model = FilteredProfilesModel()
+        self.filtered_profiles_model.setSourceModel(self.profiles_model)
+        self.load_table_data()
     
     def validate_remote_connection(self):
         self.db_manager.gspreadsheet.restart_service()
@@ -50,10 +55,13 @@ class MainWindowController(QMainWindow):
     def setup_delete_button(self):
         self.window.deleteProfilePushButton.setEnabled(False)
     
-    def setup_table(self):
+    def load_table_data(self):
         self.window.profilesTableView.setModel(self.filtered_profiles_model)
         self.window.profilesTableView.resizeColumnsToContents()
         self.window.profilesTableView.selectionModel().selectionChanged.connect(self.on_selection_changed)
+
+    def setup_table(self):
+        self.window.profilesTableView.resizeColumnsToContents()
         self.window.profilesTableView.doubleClicked.connect(self.on_table_double_clicked)
     
     def setup_results_label(self):
@@ -77,6 +85,7 @@ class MainWindowController(QMainWindow):
         profile_id = self.filtered_profiles_model.index(selected_row, 0).data()
         self.profile_form = ProfileFormController(self.db_manager, profile_id)
         self.profile_form.show() 
+        self.profiles_model.update_data(self.db_manager.fetch_profiles())
 
     @Slot(QItemSelectionModel)
     def on_selection_changed(self, selected, deselected):

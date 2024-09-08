@@ -106,7 +106,7 @@
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page_1">
     <widget class="QFrame" name="photoFrame">
@@ -130,7 +130,7 @@
         <x>10</x>
         <y>10</y>
         <width>131</width>
-        <height>111</height>
+        <height>121</height>
        </rect>
       </property>
      </widget>
@@ -1222,7 +1222,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Ninguno</string>
+       <string>Ninguna</string>
       </property>
      </widget>
     </widget>
