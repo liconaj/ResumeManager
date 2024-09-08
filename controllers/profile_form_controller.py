@@ -4,7 +4,8 @@ from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit, QFrame, QLabel
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from controllers.fields_controller import *
+from fields_controller import *
+from models import ObservableDict
 
 from utils.functions import get_option, match, open_link, gen_list_of_years
 from utils.db_manager import DbManager
@@ -14,7 +15,10 @@ class ProfileFormController(QDialog):
         super().__init__()
         self.id = id
         self.db_manager = db_manager
-        self.data = self.db_manager.get_profile_by_id(id).copy()
+        # self.data = self.db_manager.get_profile_by_id(id).copy()
+        self.original_data = self.db_manager.get_profile_by_id(id)
+        self.data  = ObservableDict(self.original_data.copy())
+        self.data.set_callback(self.data_changed_callback)
         self.form = self.load_ui()
         self.setFixedSize(self.form.size())
 
@@ -176,6 +180,16 @@ class ProfileFormController(QDialog):
             if isinstance(widget, QFrame) and not isinstance(widget, QLabel):
                 widget.setEnabled(should_enable)
 
+    def data_changed_callback(self) -> None:
+        is_equal = True
+        for k in self.original_data:
+            if self.data[k] != self.original_data[k]:
+                is_equal = False
+                break
+        self.form.savePushButton.setEnabled(not is_equal)
+        self.form.discardPushButton.setEnabled(not is_equal)
+    
+
     @Slot()
     def next_page(self) -> None:
         self.change_page(1)
@@ -192,4 +206,3 @@ class ProfileFormController(QDialog):
     @Slot()
     def previous_page(self) -> None:
         self.change_page(-1)
-    
