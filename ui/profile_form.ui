@@ -106,7 +106,7 @@
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page_1">
     <widget class="QFrame" name="photoFrame">
@@ -1021,7 +1021,7 @@
     </widget>
    </widget>
    <widget class="QWidget" name="page_2">
-    <widget class="QFrame" name="genreFrame">
+    <widget class="QFrame" name="genderFrame">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1781,14 +1781,17 @@
         <string>Año</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="mv1YearSpinBox">
+      <widget class="QComboBox" name="comboBox">
        <property name="geometry">
         <rect>
          <x>210</x>
          <y>10</y>
-         <width>71</width>
-         <height>25</height>
+         <width>72</width>
+         <height>24</height>
         </rect>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>
@@ -1846,14 +1849,17 @@
         <string>Año</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="mv2YearSpinBox">
+      <widget class="QComboBox" name="comboBox_2">
        <property name="geometry">
         <rect>
          <x>210</x>
          <y>10</y>
-         <width>71</width>
-         <height>25</height>
+         <width>72</width>
+         <height>24</height>
         </rect>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>
@@ -1911,14 +1917,17 @@
         <string>Año</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="mv3YearSpinBox">
+      <widget class="QComboBox" name="comboBox_3">
        <property name="geometry">
         <rect>
          <x>210</x>
          <y>10</y>
-         <width>71</width>
-         <height>25</height>
+         <width>72</width>
+         <height>24</height>
         </rect>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>

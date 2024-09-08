@@ -1,12 +1,13 @@
+from xml.etree.ElementPath import get_parent_map
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile, QIODevice, Slot
-from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit
+from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit, QFrame, QLabel
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from controllers.fields_controller import ComboBoxController, LineEditController, PlainTextEditController
+from controllers.fields_controller import CheckBoxesFrameController, ComboBoxController, LineEditController, PlainTextEditController, RadioButtonsFrameController
 
-from utils.functions import get_option
+from utils.functions import get_option, match
 from utils.db_manager import DbManager
 
 class ProfileFormController(QDialog):
@@ -24,6 +25,8 @@ class ProfileFormController(QDialog):
         self.setup_line_edits()
         self.setup_plain_texts()
         self.setup_comboboxes()
+        self.setup_radio_buttons_frames()
+        self.setup_checkboxes_frame()
         self.update_navigation_buttons()
         self.setWindowTitle("Editar perfil")
     
@@ -115,6 +118,33 @@ class ProfileFormController(QDialog):
         self.role = self._combobox(self.form.roleComboBox, "role")
         self.experience_sector = self._combobox(self.form.expSectorComboBox, "experience_sector", "sector")
         self.experience_duration = self._combobox(self.form.expYearsComboBox, "experience_duration")
+    
+    def _radio_buttons_frame(self, frame: QFrame, column: str, option: str = None) -> RadioButtonsFrameController:
+        option = column if option is None else option
+        controller = RadioButtonsFrameController(frame, get_option(option), self.data, column)
+        return controller
+    
+    def setup_radio_buttons_frames(self) -> None:
+        self.contact_frame = self._radio_buttons_frame(self.form.contactFrame, "authorize_contact", "bool")
+        self.participation_frame = self._radio_buttons_frame(self.form.participationFrame, "authorize_participation", "bool")
+        self.gender_frame = self._radio_buttons_frame(self.form.genderFrame, "gender")
+        self.ethnicity_frame = self._radio_buttons_frame(self.form.ethnicityFrame, "ethnicity_or_culture")
+        self.degrees_frame = self._radio_buttons_frame(self.form.degreesFrame, "has_degree", "bool")
+        self.degrees_frame.toggled_connect(lambda: self.toggle_subframes(self.degrees_frame))
+        self.mv_frame = self._radio_buttons_frame(self.form.mvFrame, "mv_participation", "bool")
+        self.mv_frame.toggled_connect(lambda: self.toggle_subframes(self.mv_frame))
+        self.mlk_frame = self._radio_buttons_frame(self.form.mlkFrame, "mlk_program", "bool")
+        self.fulbright_seminar = self._radio_buttons_frame(self.form.fulbrightFrame, "fulbright_seminar", "bool")
+
+    def setup_checkboxes_frame(self) -> None:
+        self.motivations = CheckBoxesFrameController(self.form.motivationsFrame, get_option("motivations"), self.data, "motivations")
+    
+    def toggle_subframes(self, radio_buttons_frame: RadioButtonsFrameController, enable_value = "Si") -> None:
+        selected_option = radio_buttons_frame.selected_option()
+        should_enable = match(selected_option, enable_value)
+        for widget in radio_buttons_frame.frame.children():
+            if isinstance(widget, QFrame) and not isinstance(widget, QLabel):
+                widget.setEnabled(should_enable)
 
     @Slot()
     def next_page(self) -> None:
