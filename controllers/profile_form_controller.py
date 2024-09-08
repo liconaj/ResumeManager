@@ -3,6 +3,8 @@ from PySide6.QtCore import QFile, QIODevice, Slot
 from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit, QFrame, QLabel
 
 import os, sys
+
+from utils import db_manager
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from fields_controller import *
 from message_box_controller import MessageBoxController
@@ -66,6 +68,7 @@ class ProfileFormController(QDialog):
 
     def setup_data_buttons(self) -> None:
         self.form.savePushButton.setEnabled(False)
+        self.form.savePushButton.clicked.connect(self.on_save_changes_clicked)
         self.form.discardPushButton.setEnabled(False)
         self.form.discardPushButton.clicked.connect(self.on_discard_changes_clicked)
 
@@ -200,9 +203,6 @@ class ProfileFormController(QDialog):
         self.data.set_callback(self.data_changed_callback)
         self.load_fields()
     
-    def save_changes(self) -> None:
-        pass
-
     def closeEvent(self, event):
         """Sobrescribe el evento de cierre del diálogo"""
         if not self.saved:
@@ -231,3 +231,10 @@ class ProfileFormController(QDialog):
     @Slot()
     def on_discard_changes_clicked(self) -> None:
         MessageBoxController(self, "Advertencia", "Perderás todos los cambios no guardados. ¿Desea continuar?", self.discard_changes)
+    
+    @Slot()
+    def on_save_changes_clicked(self) -> None:
+        self.saved = True
+        self.db_manager.update_local_db_with_profile(self.data)
+        self.original_data = self.db_manager.get_profile_by_id(self.id).copy()
+        self.data_changed_callback()

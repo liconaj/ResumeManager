@@ -135,3 +135,21 @@ class DbManager:
     def get_profile_by_id(self, id: int) -> dict[str, Any]:
         profile = Profile.get(id=id)
         return profile.to_dict() if profile else None
+    
+    @db_session
+    def update_local_db_with_profile(self, profile_data: dict[str, Any]) -> None:
+        profile_id = profile_data.get('id', None)
+        # Si el ID está presente, intentamos encontrar el perfil
+        if profile_id is not None:
+            profile = Profile.get(id=int(profile_id))
+            if profile:
+                # Actualizamos los campos existentes
+                for key, value in profile_data.items():
+                    if hasattr(profile, key) and key != "id":
+                        setattr(profile, key, value)
+            else:
+                # Si no encontramos el perfil, creamos uno nuevo
+                Profile(**profile_data)
+        else:
+            # Si no hay ID, creamos un nuevo perfil
+            Profile(**profile_data)
