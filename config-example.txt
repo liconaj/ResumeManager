@@ -1,3 +1,7 @@
+# Tema o estilo de la aplicación,
+# Algunos estilos son "Fusion", "Native"
+APPLICATION_STYLE = "Fusion"
+
 # Configura el dpi de las fuentes
 # mientras más grande sea el valor, más grande se verá la ventana
 FONT_DPI = 96

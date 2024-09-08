@@ -34,7 +34,9 @@ if __name__ == "__main__":
 
     QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
     app = QApplication(sys.argv)
-    #app.setStyle("Fusion")
+    style = config.get("APPLICATION_STYLE")
+    if style is not None and style.strip():
+        app.setStyle(style)
 
     ui_file_name = "ui/main_window.ui"
     ui_file = QFile(ui_file_name)
