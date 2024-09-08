@@ -75,7 +75,7 @@ class ComboBoxController:
             selected_value = ""
             self.combo_box.setCurrentIndex(-1)
         self.data_dict[self.key] = selected_value
-        if self.custom_func is not None:
+        if self.custom_func and selected_value:
             self.custom_func(selected_value)
 
 

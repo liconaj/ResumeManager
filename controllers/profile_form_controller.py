@@ -1,10 +1,11 @@
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile, QIODevice, Slot
-from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit, QFrame, QLabel
+from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit, QFrame, QLabel, QMessageBox
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from fields_controller import *
+from message_box_controller import MessageBoxController
 from models import ObservableDict
 
 from utils.functions import get_option, match, open_link, gen_list_of_years
@@ -14,6 +15,7 @@ class ProfileFormController(QDialog):
     def __init__(self, db_manager: DbManager, id: int) -> None:
         super().__init__()
         self.id = id
+        self.saved = True
         self.db_manager = db_manager
         # self.data = self.db_manager.get_profile_by_id(id).copy()
         self.original_data = self.db_manager.get_profile_by_id(id)
@@ -21,22 +23,24 @@ class ProfileFormController(QDialog):
         self.data.set_callback(self.data_changed_callback)
         self.form = self.load_ui()
         self.setFixedSize(self.form.size())
-
+        self.load_fields()
+        self.setup_stacked_widget()
+        self.setup_navigation_buttons()
+        self.update_navigation_buttons()
+        self.setup_photo()
+        self.setWindowTitle("Editar perfil")
+    
+    def load_fields(self) -> None:
         self.setup_profile_title()
         self.setup_labels()
         self.setup_buttons()
         self.setup_birth_date()
-        self.setup_stacked_widget()
-        self.setup_navigation_buttons()
         self.setup_data_buttons()
         self.setup_line_edits()
         self.setup_plain_texts()
         self.setup_comboboxes()
         self.setup_radio_buttons_frames()
         self.setup_checkboxes_frame()
-        self.setup_photo()
-        self.update_navigation_buttons()
-        self.setWindowTitle("Editar perfil")
     
     def setup_profile_title(self):
         self.form.idLabel.setText(str(self.data["id"]).zfill(3))
@@ -63,6 +67,7 @@ class ProfileFormController(QDialog):
     def setup_data_buttons(self) -> None:
         self.form.savePushButton.setEnabled(False)
         self.form.discardPushButton.setEnabled(False)
+        self.form.discardPushButton.clicked.connect(self.on_discard_changes_clicked)
 
     def setup_labels(self) -> None:
         forms_email = self.data["email_form"]
@@ -188,11 +193,23 @@ class ProfileFormController(QDialog):
                 break
         self.form.savePushButton.setEnabled(not is_equal)
         self.form.discardPushButton.setEnabled(not is_equal)
+        self.saved = is_equal
     
+    def discard_changes(self) -> None:
+        self.data = ObservableDict(self.original_data)
+        self.data.set_callback(self.data_changed_callback)
+        self.load_fields()
+    
+    def save_changes(self) -> None:
+        pass
 
-    @Slot()
-    def next_page(self) -> None:
-        self.change_page(1)
+    def closeEvent(self, event):
+        """Sobrescribe el evento de cierre del diálogo"""
+        if not self.saved:
+            MessageBoxController(self, "Cambios sin guardar", "Tienes cambios sin guardar. ¿Deseas salir sin guardar?",
+                lambda : (self.discard_changes(), event.accept()), lambda: event.ignore())
+        else:
+            event.accept()
     
     @Slot(QDate)
     def update_age(self, date_of_birth: QDate) -> None:
@@ -206,3 +223,11 @@ class ProfileFormController(QDialog):
     @Slot()
     def previous_page(self) -> None:
         self.change_page(-1)
+    
+    @Slot()
+    def next_page(self) -> None:
+        self.change_page(1)
+
+    @Slot()
+    def on_discard_changes_clicked(self) -> None:
+        MessageBoxController(self, "Advertencia", "Perderás todos los cambios no guardados. ¿Desea continuar?", self.discard_changes)
