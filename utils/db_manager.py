@@ -103,9 +103,11 @@ class DbManager:
         if local_row_count > sheet_row_count:
             self._update_gspreadsheet()
             print("[DB_MANAGER] Actualizando datos en la nube")
-        else:
+        elif sheet_row_count < local_row_count:
             self._update_local_db()
             print("[DB_MANAGER] Actualizando datos locales")
+        else:
+            print("[DB_MANAGER] Base de datos actualizada")
 
     @db_session
     def _update_local_db(self):
