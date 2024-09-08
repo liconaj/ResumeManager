@@ -130,6 +130,10 @@ class ProfileFormController(QDialog):
         self.role = self._combobox(self.form.roleComboBox, "role")
         self.experience_sector = self._combobox(self.form.expSectorComboBox, "experience_sector", "sector")
         self.experience_duration = self._combobox(self.form.expYearsComboBox, "experience_duration")
+        self.birth_place = PlaceComboBoxesController(self.form.birthDeptComboBox, "birth_department",
+            self.form.birthCityComboBox, "birth_municipality", self.data)
+        self.residence_place = PlaceComboBoxesController(self.form.residenceDeptComboBox, "residence_department",
+            self.form.residenceCityComboBox, "residence_municipality", self.data)
     
     def _radio_buttons_frame(self, frame: QFrame, column: str, option: str = None) -> RadioButtonsFrameController:
         option = column if option is None else option

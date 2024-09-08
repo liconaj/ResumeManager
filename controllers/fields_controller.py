@@ -1,7 +1,8 @@
+from re import S
 from PySide6.QtWidgets import QLineEdit, QPlainTextEdit, QComboBox, QFrame, QRadioButton, QCheckBox, QPushButton
 from PySide6.QtCore import Slot
 from utils import match, get_closest_match
-from utils.functions import normalize_string, open_link
+from utils.functions import get_option, normalize_string, open_link
 
 class LineEditController:
     def __init__(self, line_edit: QLineEdit, data: dict, key: str) -> None:
@@ -29,21 +30,37 @@ class PlainTextEditController:
 
 
 class ComboBoxController:
-    def __init__(self, combo_box: QComboBox, options: list[str], data_dict: dict, key: str) -> None:
+    def __init__(self, combo_box: QComboBox, options: list[str] | None, data_dict: dict, key: str) -> None:
+        self.custom_func = None
         self.combo_box = combo_box
         self.null_option = "   "
-        self.options = [self.null_option] + options
         self.data_dict = data_dict
         self.key = key
-        self.combo_box.addItems(self.options)
-        self.placeholder_text = self.combo_box.placeholderText()
-        
+        self.set_options(options)
+        self.combo_box.currentTextChanged.connect(self.on_selection_changed)
+    
+    def set_options(self, options: list[str] | None) -> None:
+        self.options = options
+        self.combo_box.clear()
+        if options is None:
+            self.combo_box.setEnabled(False)
+        else:
+            self.combo_box.setEnabled(True)
+            self.options = [self.null_option] + options
+            self.combo_box.addItems(self.options)
+        self.update()
+    
+    def update(self) -> None:
+        if self.options is None:
+            return
         current_value = self.data_dict.get(self.key, None)
         if current_value in self.options:
             self.combo_box.setCurrentText(current_value)
-        if current_value == self.null_option:
+        else:
             self.combo_box.setCurrentIndex(-1)
-        self.combo_box.currentTextChanged.connect(self.on_selection_changed)
+    
+    def connect(self, custom_func: callable) -> None:
+        self.custom_func = custom_func
 
     @Slot(str)
     def on_selection_changed(self, selected_value: str) -> None: 
@@ -51,6 +68,24 @@ class ComboBoxController:
             selected_value = ""
             self.combo_box.setCurrentIndex(-1)
         self.data_dict[self.key] = selected_value
+        if self.custom_func is not None:
+            self.custom_func(selected_value)
+
+class PlaceComboBoxesController:
+    def __init__(self, dept_combobox: QComboBox, dept_key: str, city_combobox: QComboBox, city_key: str, data_dict: dict) -> None:
+        self.data_dict = data_dict
+        self.dept_key = dept_key
+        self.city_key = city_key
+        self.department_cities: dict = get_option("department_cities")
+        self.dept_combobox = ComboBoxController(dept_combobox, sorted(list(self.department_cities.keys())), data_dict, dept_key)
+        options = self.department_cities.get(data_dict[dept_key], None)
+        self.city_combobox = ComboBoxController(city_combobox, sorted(options), data_dict, city_key)
+        self.dept_combobox.connect(self.on_dept_selection_changed)
+    
+    @Slot(str)
+    def on_dept_selection_changed(self, selected_value: str) -> None:
+        options = self.department_cities.get(selected_value, None)
+        self.city_combobox.set_options(sorted(options))
 
 class RadioButtonsFrameController:
     def __init__(self, frame: QFrame, options: list[str], data_dict: dict, key: str) -> None:

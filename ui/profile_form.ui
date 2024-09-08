@@ -106,7 +106,7 @@
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="page_1">
     <widget class="QFrame" name="photoFrame">
@@ -690,7 +690,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QComboBox" name="birthCityComoBox">
+     <widget class="QComboBox" name="birthCityComboBox">
       <property name="geometry">
        <rect>
         <x>100</x>
