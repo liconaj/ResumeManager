@@ -110,6 +110,7 @@ class ProfileFormController(QDialog):
         self.mv_program_1 = self._combobox(self.form.mv1NameComboBox, "mv_program_1", "mv_program")
         self.mv_program_2 = self._combobox(self.form.mv2NameComboBox, "mv_program_2", "mv_program")
         self.mv_program_3 = self._combobox(self.form.mv3NameComboBox, "mv_program_3", "mv_program")
+        self.occupation = self._combobox(self.form.occupationComboBox, "occupation")
         self.sector = self._combobox(self.form.sectorComboBox, "sector")
         self.role = self._combobox(self.form.roleComboBox, "role")
         self.experience_sector = self._combobox(self.form.expSectorComboBox, "experience_sector", "sector")
