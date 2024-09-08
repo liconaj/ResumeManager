@@ -2,6 +2,7 @@ import os
 import json
 import re, unicodedata
 from difflib import get_close_matches, SequenceMatcher
+from datetime import datetime
 import webbrowser
 from typing import Any
 
@@ -36,3 +37,6 @@ def match(a: str, b: str, threshold: float = 0.9) -> bool:
 def open_link(link: str) -> None:
     if link:
         webbrowser.open(link)
+
+def gen_list_of_years(start: int, end: int = datetime.now().year):
+    return [str(year) for year in range(end, start-1, -1)]

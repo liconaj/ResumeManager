@@ -6,7 +6,7 @@ import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from controllers.fields_controller import *
 
-from utils.functions import get_option, match, open_link
+from utils.functions import get_option, match, open_link, gen_list_of_years
 from utils.db_manager import DbManager
 
 class ProfileFormController(QDialog):
@@ -134,7 +134,11 @@ class ProfileFormController(QDialog):
             self.form.birthCityComboBox, "birth_municipality", self.data)
         self.residence_place = PlaceComboBoxesController(self.form.residenceDeptComboBox, "residence_department",
             self.form.residenceCityComboBox, "residence_municipality", self.data)
-    
+        mv_years = gen_list_of_years(2010)
+        self.mv_year_1 = ComboBoxController(self.form.mv1YearComboBox, mv_years, self.data, "mv_program_1_year")
+        self.mv_year_2 = ComboBoxController(self.form.mv2YearComboBox, mv_years, self.data, "mv_program_2_year")
+        self.mv_year_3 = ComboBoxController(self.form.mv3YearComboBox, mv_years, self.data, "mv_program_3_year")
+
     def _radio_buttons_frame(self, frame: QFrame, column: str, option: str = None) -> RadioButtonsFrameController:
         option = column if option is None else option
         controller = RadioButtonsFrameController(frame, get_option(option), self.data, column)

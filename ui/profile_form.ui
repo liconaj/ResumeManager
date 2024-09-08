@@ -106,7 +106,7 @@
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page_1">
     <widget class="QFrame" name="photoFrame">
@@ -1785,7 +1785,7 @@
         <string>Año</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox">
+      <widget class="QComboBox" name="mv1YearComboBox">
        <property name="geometry">
         <rect>
          <x>210</x>
@@ -1853,7 +1853,7 @@
         <string>Año</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_2">
+      <widget class="QComboBox" name="mv2YearComboBox">
        <property name="geometry">
         <rect>
          <x>210</x>
@@ -1921,7 +1921,7 @@
         <string>Año</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_3">
+      <widget class="QComboBox" name="mv3YearComboBox">
        <property name="geometry">
         <rect>
          <x>210</x>
