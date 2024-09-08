@@ -101,16 +101,16 @@ class DbManager:
         local_row_count = len(local_data)
             
         if local_row_count > sheet_row_count:
-            self._update_gspreadsheet()
+            self._update_gspreadsheet_with_local_db()
             print("[DB_MANAGER] Actualizando datos en la nube")
         elif sheet_row_count < local_row_count:
-            self._update_local_db()
+            self._update_local_db_with_gspreadsheet()
             print("[DB_MANAGER] Actualizando datos locales")
         else:
             print("[DB_MANAGER] Base de datos actualizada")
 
     @db_session
-    def _update_local_db(self):
+    def _update_local_db_with_gspreadsheet(self):
         data: list[dict[str, Any]] = self.gspreadsheet.fetch_data()
         for item in data:
             profile = Profile.get(id=item.get('id'))
@@ -122,7 +122,7 @@ class DbManager:
         print("[DB_MANAGER] Numero de entradas:", Profile.select().count())
 
     @db_session
-    def _update_gspreadsheet(self):
+    def _update_gspreadsheet_with_local_db(self):
         headers = Profile._columns_
         values: list[list[Any]] = [list(headers)] + [[getattr(profile, header, "") for header in headers] for profile in Profile.select()]
         self.gspreadsheet.update_sheet(values)
