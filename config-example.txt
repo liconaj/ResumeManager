@@ -1,6 +1,6 @@
 # Configura el dpi de las fuentes
 # mientras más grande sea el valor, más grande se verá la ventana
-FONT_DPI = 100
+FONT_DPI = 96
 
 # Id de la hoja de cálculo de Google
 MASTER_SHEET_ID = ""
