@@ -98,6 +98,7 @@ class PlaceComboBoxesController:
 
 class RadioButtonsFrameController:
     def __init__(self, frame: QFrame, options: list[str], data_dict: dict, key: str) -> None:
+        self.toggled_custom_func = None
         self.frame = frame
         self.options = options
         self.data_dict = data_dict
