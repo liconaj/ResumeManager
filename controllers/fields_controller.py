@@ -42,6 +42,7 @@ class ComboBoxController:
         self.null_option = "   "
         self.data_dict = data_dict
         self.key = key
+        self.is_editable = self.combo_box.isEditable()
         self.set_options(options)
         self.combo_box.currentTextChanged.connect(self.on_selection_changed)
     
@@ -61,7 +62,7 @@ class ComboBoxController:
         if self.options is None:
             return
         current_value = self.data_dict.get(self.key, None)
-        if current_value in self.options:
+        if current_value in self.options or self.is_editable and not current_value == self.null_option:
             self.combo_box.setCurrentText(current_value)
         else:
             self.combo_box.setCurrentIndex(-1)

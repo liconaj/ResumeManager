@@ -2,6 +2,7 @@
     "files": [
         "controllers/main_controller.py",
         "main.py",
+        "ui/import_form.ui",
         "ui/profile_form.ui",
         "utils/__init__.py",
         "utils/config.py",
