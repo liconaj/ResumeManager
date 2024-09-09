@@ -1,4 +1,5 @@
-import sys, os
+import sys
+import os
 from utils import Config, DbManager, GSpreadSheet
 from controllers import MainWindowController
 

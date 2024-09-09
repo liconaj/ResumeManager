@@ -1,4 +1,4 @@
-from PySide6.QtCore import QAbstractTableModel, QObject, Qt, QModelIndex
+from PySide6.QtCore import QAbstractTableModel, Qt, QModelIndex
 from typing import Any
 from utils import calc_age
 

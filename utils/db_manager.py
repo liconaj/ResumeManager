@@ -1,8 +1,8 @@
-from multiprocessing.managers import ValueProxy
-from pony.orm import Database, Required, Optional, PrimaryKey, db_session
+from pony.orm import Database, Optional, PrimaryKey, db_session
 from typing import Any
 
-import os, sys
+import os
+import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from gspreadsheet import GSpreadSheet

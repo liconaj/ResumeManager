@@ -1,6 +1,7 @@
 import os
 import json
-import re, unicodedata
+import re
+import unicodedata
 from difflib import get_close_matches, SequenceMatcher
 from datetime import datetime
 import webbrowser
@@ -45,7 +46,7 @@ def calc_age(birthdate_str: str) -> str:
         return ""
     try:
         birthdate = datetime.strptime(birthdate_str, "%d/%m/%Y")
-    except:
+    except Exception:
         birthdate = datetime.strptime("1/11/1111", "%d/%m/%Y")
     today = datetime.today()
     age = today.year - birthdate.year

@@ -24,7 +24,7 @@ class GSpreadSheet:
             return None
         try:
             return build('sheets', 'v4', credentials=self.creds)
-        except HTTPError as e:
+        except HTTPError as _:
             self.available = False
 
     def _check_internet_connection(self) -> bool:

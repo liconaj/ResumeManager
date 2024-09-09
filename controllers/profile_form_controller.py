@@ -1,11 +1,12 @@
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtCore import QFile, QIODevice, Slot
+from PySide6.QtCore import QFile, QIODevice, Slot, QDate
 from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit, QFrame, QLabel
 
-import os, sys
+import os
+import sys
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from fields_controller import *
+from fields_controller import LineEditController, PlainPushButtonController, PlainTextEditController, ComboBoxController, CheckBoxesFrameController, PlaceComboBoxesController, RadioButtonsFrameController, DateEditController, GraphicsViewController
 from message_box_controller import MessageBoxController
 from models import ObservableDict
 
@@ -112,6 +113,7 @@ class ProfileFormController(QDialog):
         self.degree_3_name = self._line_edit(self.form.deg3NameLineEdit, "degree_3_name")
         self.linkedin = self._line_edit(self.form.linkedInLineEdit, "linkedin")
         self.company = self._line_edit(self.form.companyLineEdit, "company")
+        self.tag = self._line_edit(self.form.tagLineEdit, "tag")
     
     def setup_plain_texts(self) -> None:
         self.professional_profile = PlainTextEditController(self.form.professionalProfilePlainTextEdit, self.data, "professional_profile")
