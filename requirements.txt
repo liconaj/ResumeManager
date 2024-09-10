@@ -7,3 +7,5 @@ pony
 toml
 pillow
 pillow-heif
+pandas
+openpyxl

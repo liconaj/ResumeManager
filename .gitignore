@@ -6,6 +6,7 @@ credentials.json
 *_ui.py
 ui_*.py
 *.sqlite
+*.xlsx
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
