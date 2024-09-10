@@ -2,6 +2,7 @@ from PySide6.QtCore import Slot, QItemSelectionModel, QRegularExpression
 from PySide6.QtWidgets import QMainWindow, QComboBox
 from PySide6.QtGui import QIntValidator
 from controllers.import_form_controller import ImportFormController
+from controllers.message_box_controller import MessageBoxController
 from models import ProfilesTableModel, FilteredProfilesModel
 from utils import DbManager
 
@@ -174,14 +175,23 @@ class MainWindowController(QMainWindow):
         self.window.idSearchLineEdit.setText("")
         self.window.filterSearchLineEdit.setText("")
     
-    @Slot()
-    def on_delete_profile_button_clicked(self):
+    def _delete_profile(self):
         profile_id = self.get_selected_profile_id()
         if profile_id is None:
             return
         self.db_manager.delete_profile_by_id(int(profile_id))
         self.load_profiles()
         self.update_results_label()
+    
+    @Slot()
+    def on_delete_profile_button_clicked(self):
+        profile_id = self.get_selected_profile_id()
+        profile_name = self.db_manager.get_profile_by_id(profile_id)["full_name"]
+        MessageBoxController(self,
+            "Eliminar perfil",
+            f"Está seguro de querer eliminar a {profile_id} - {profile_name}?",
+            self._delete_profile
+        )
     
     @Slot()
     def on_table_double_clicked(self) -> None:
