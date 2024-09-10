@@ -5,8 +5,11 @@ from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit, QFrame, QLabel
 import os
 import sys
 
+from utils.config import Config
+from utils.drive_service import DriveService
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from fields_controller import LineEditController, PlainPushButtonController, PlainTextEditController, ComboBoxController, CheckBoxesFrameController, PlaceComboBoxesController, RadioButtonsFrameController, DateEditController, GraphicsViewController
+from fields_controller import DeleteFilePushButtonController, ImportPushButtonController, LineEditController, PlainPushButtonController, PlainTextEditController, ComboBoxController, CheckBoxesFrameController, PlaceComboBoxesController, RadioButtonsFrameController, DateEditController, GraphicsViewController
 from message_box_controller import MessageBoxController
 from models import ObservableDict
 
@@ -21,6 +24,7 @@ class ProfileFormController(QDialog):
         self.db_manager = db_manager
         # self.data = self.db_manager.get_profile_by_id(id).copy()
         self.original_data = self.db_manager.get_profile_by_id(id)
+        self.drive_service = DriveService(Config())
         self.data  = ObservableDict(self.original_data.copy())
         self.data.set_callback(self.data_changed_callback)
         self.form = self.load_ui()
@@ -36,6 +40,8 @@ class ProfileFormController(QDialog):
         self.setup_profile_title()
         self.setup_labels()
         self.setup_buttons()
+        self.setup_import_file_buttons()
+        self.setup_delete_file_buttons()
         self.setup_birth_date()
         self.setup_data_buttons()
         self.setup_line_edits()
@@ -81,6 +87,28 @@ class ProfileFormController(QDialog):
         self.photo_button = PlainPushButtonController(self.form.photoPushButton, self.data, "photo_name", "photo_link")
         self.resume_button = PlainPushButtonController(self.form.resumePushButton, self.data, "resume_name", "resume_link")
         self.form.seeLinkedInPushButton.clicked.connect(lambda : open_link(self.data["linkedin"]))
+    
+    def setup_import_file_buttons(self) -> None:
+        self.import_photo = ImportPushButtonController(self.drive_service, self.form.importPhotoPushButton, self.data, "photo")
+        self.import_photo.connect(self.reload_photo)
+        self.import_resume = ImportPushButtonController(self.drive_service, self.form.importCVPushButton, self.data, "resume")
+        self.import_resume.connect(self.reload_resume)
+    
+    def setup_delete_file_buttons(self) -> None:
+        self.delete_photo = DeleteFilePushButtonController(self.drive_service, self.form.deletePhotoPushButton, self.data, "photo")
+        self.delete_photo.connect(self.reload_photo)
+        self.delete_resume = DeleteFilePushButtonController(self.drive_service, self.form.deleteCVPushButton, self.data, "resume")
+        self.delete_resume.connect(self.reload_resume)
+    
+    def reload_resume(self) -> None:
+        self.setup_buttons()
+        self.update_files()
+
+    def reload_photo(self) -> None:
+        self.photo.destroy()
+        self.photo = GraphicsViewController(self.form.photoGraphicsView, self.data, "photo_link")
+        self.setup_buttons()
+        self.update_files()
 
     def show(self) -> None:
         self.exec()
@@ -211,6 +239,15 @@ class ProfileFormController(QDialog):
                 lambda : (self.discard_changes(), event.accept()), lambda: event.ignore())
         else:
             event.accept()
+    
+    def update_files(self):
+        self.original_data["photo_name"] = self.data["photo_name"]
+        self.original_data["resume_name"] = self.data["resume_name"]
+        self.original_data["photo_link"] = self.data["photo_link"]
+        self.original_data["resume_link"] = self.data["resume_link"]
+        self.db_manager.update_local_db_with_profile(self.data)
+        self.original_data = self.db_manager.get_profile_by_id(self.id).copy()
+        self.data_changed_callback()
     
     @Slot(QDate)
     def update_age(self, date_of_birth: QDate) -> None:

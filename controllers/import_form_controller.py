@@ -177,19 +177,11 @@ class ImportFormController(QDialog):
         for k in list(profile.keys()):
             if k.startswith("_"):
                 del profile[k]
-        drive_service = DriveService(self.config)
-
-        resume_ext = drive_service.get_file_extension(profile["resume_link"])
-        name_id = get_name_id(profile["full_name"])
-        doc_id = generate_deterministic_id(profile["id_document_number"])
-
-        resume_name = format_file_name_with_id(doc_id, name_id, resume_ext)
-        photo_name = format_file_name_with_id(doc_id, name_id, ".jpg")
         
-        profile["resume_name"] = resume_name
-        profile["resume_link"] = drive_service.import_resume(profile["resume_link"], resume_name)
-        profile["photo_name"] = photo_name
-        profile["photo_link"] = drive_service.import_resume(profile["photo_link"], photo_name)
+        profile["resume_name"] = ""
+        profile["resume_link"] = profile["resume_link"]
+        profile["photo_name"] = ""
+        profile["photo_link"] = profile["photo_link"]
 
         self.db_manager.update_local_db_with_profile(profile)
     

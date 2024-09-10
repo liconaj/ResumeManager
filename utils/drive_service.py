@@ -8,6 +8,7 @@ import socket
 import os
 import sys
 import io
+import re
 
 from  PIL import Image
 import pillow_heif
@@ -21,7 +22,7 @@ pillow_heif.register_avif_opener()
 
 class DriveService:
     def __init__(self, config: Config) -> None:
-        self.cv_folder_id = config.get("CV_FOLDER_ID")
+        self.cv_folder_id = config.get("RESUME_FOLDER_ID")
         self.photo_folder_id = config.get("PHOTO_FOLDER_ID")
         self.creds = self._get_credentials()
         self.service = self._get_service()
@@ -202,3 +203,29 @@ class DriveService:
     
     def import_photo(self, input_file_url, output_file_name, overwrite = False) -> str:
         return self.import_file(input_file_url, output_file_name, self.photo_folder_id, overwrite)
+    
+    def import_local_resume(self, input_file_path, output_file_name, overwrite = False) -> str:
+        return self.import_local_file(input_file_path, output_file_name, self.cv_folder_id, overwrite)
+    
+    def import_local_photo(self, input_file_path, output_file_name, overwrite = False) -> str:
+        return self.import_local_file(input_file_path, output_file_name, self.photo_folder_id, overwrite)
+
+    def delete_file(self, file_url: str) -> bool:
+        file_id = self._extract_file_id(file_url)
+        if not file_id:
+            print(f"No se pudo extraer el ID del archivo de la URL: {file_url}")
+            return False
+        try:
+            self.service.files().delete(fileId=file_id).execute()
+            print(f"Archivo con ID {file_id} eliminado exitosamente.")
+            return True
+        except HttpError as error:
+            print(f"Error al intentar eliminar el archivo: {error}")
+            return False
+
+    def _extract_file_id(self, file_url: str) -> str:
+        # Usa una expresión regular para extraer el ID del archivo de la URL
+        match = re.search(r'/d/([a-zA-Z0-9_-]+)', file_url)
+        if match:
+            return match.group(1)
+        return None

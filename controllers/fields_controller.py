@@ -1,11 +1,21 @@
+from concurrent.futures import thread
 import requests
 from io import BytesIO
 from PySide6.QtGui import QPixmap, QFont
 from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QGraphicsTextItem
 from PySide6.QtCore import Signal, Slot, QDate, QObject, Qt, QThread
 from PySide6.QtWidgets import QLineEdit, QPlainTextEdit, QComboBox, QFrame, QRadioButton, QCheckBox, QPushButton, QDateEdit
-from utils import match, get_closest_match
-from utils.functions import get_option, normalize_string, open_link
+from utils import match, get_closest_match, get_option, normalize_string, open_link
+
+import sys
+import os
+
+from utils import drive_service
+from utils.config import Config
+from utils.drive_service import DriveService
+from utils.functions import format_file_name_with_id, generate_deterministic_id, get_file_extension, get_name_id
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from file_dialog_controller import FileDialogController
 
 
 
@@ -194,12 +204,83 @@ class PlainPushButtonController:
             self.push_button.setText("N/A")
         else:
             self.push_button.setEnabled(True)
+            if text == "":
+                text = "Ver archivo"    
             self.push_button.setText(text)
     
     @Slot()
     def on_clicked(self):
         open_link(self.data[self.link_key])
 
+
+class ImportPushButtonController:
+    def __init__(self, drive_service: DriveService, import_button: QPushButton, data_dict: dict, file) -> None:
+        self.import_button = import_button
+        self.data = data_dict
+        if file == "resume":
+            self.file_type = "document"
+        else:
+            self.file_type = "image"
+        self.file_name = f"{file}_name"
+        self.file_link = f"{file}_link"
+        self.import_button.clicked.connect(self.on_import_button_clicked)
+        self.drive_service = drive_service
+        self.custom_func = None
+    
+    def connect(self, custom_func):
+        self.custom_func = custom_func
+    
+    @Slot()
+    def on_import_button_clicked(self):
+        file_dialog = FileDialogController(self.file_type)
+        file_path = file_dialog.open_file_dialog()
+        if not os.path.exists(file_path):
+            print("El archivo no existe.")
+            return ""
+
+        if self.file_type == "image":
+            output_ext = ".jpg"
+        else:
+            output_ext = get_file_extension(file_path)
+        name_id = get_name_id(self.data["full_name"])
+        doc_id  = generate_deterministic_id(self.data["id_document_number"])
+        file_name = format_file_name_with_id(doc_id, name_id, output_ext)
+        if self.file_type == "image":
+            file_link = self.drive_service.import_local_photo(file_path, file_name, True)
+        else:
+            file_link = self.drive_service.import_local_resume(file_path, file_name, True)
+        self.data[self.file_name] = file_name
+        self.data[self.file_link] = file_link
+
+        if self.custom_func is not None:
+            self.custom_func()
+        
+        print(file_name, file_link)
+
+
+class DeleteFilePushButtonController:
+    def __init__(self, drive_service: DriveService, button: QPushButton, data: dict, file: str) -> None:
+        self.drive_service = drive_service
+        self.button = button
+        self.button.clicked.connect(self.on_delete_push_button)
+        self.data = data
+        self.custom_func = None
+        self.file_name = f"{file}_name"
+        self.file_link = f"{file}_link"
+    
+    def connect(self, custom_func):
+        self.custom_func = custom_func
+    
+    @Slot()
+    def on_delete_push_button(self):
+        file_link = self.data[self.file_link]
+        if not file_link:
+            return
+        self.drive_service.delete_file(file_link)
+        self.data[self.file_name] = ""
+        self.data[self.file_link] = ""
+        if self.custom_func is not None:
+            self.custom_func()
 
 class DateEditController(QObject):
     date_changed = Signal(QDate)
@@ -260,6 +341,7 @@ class GraphicsViewController:
         self.scene = QGraphicsScene(self.graphics_view)
         self.graphics_view.setScene(self.scene)
         image_url = self.get_image_url(self.data_dict.get(self.key, ""))
+        self.thread = None
         if not image_url:
             return
         self.show_loading_text()
@@ -270,6 +352,24 @@ class GraphicsViewController:
         self.worker.image_loaded.connect(self.display_image)
         self.worker.image_loaded.connect(self.thread.quit)
         self.thread.start()
+    
+    def destroy(self):        
+        # Detener el hilo si aún está corriendo
+        if self.thread is None:
+            return
+        if self.thread.isRunning():
+            self.thread.quit()
+            self.thread.wait()
+        try:
+            self.worker.image_loaded.disconnect(self.display_image)
+            self.worker.image_loaded.disconnect(self.thread.quit)
+        except TypeError:
+            # Si ya están desconectadas, ignora el error
+            pass
+        self.scene.clear()
+        self.graphics_view.setScene(None)
+        del self.worker
+        del self.thread
 
     def show_loading_text(self):
         # Mostrar "Cargando..." en el centro del QGraphicsView
