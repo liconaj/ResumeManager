@@ -13,7 +13,7 @@ FILE_PATH = get_abspath_relative_root("data/database.sqlite")
 db = Database()
 
 class Profile(db.Entity):
-    id = PrimaryKey(int)
+    id = PrimaryKey(int, auto=True)
     email_form = Optional(str)
     authorize_contact = Optional(str)
     authorize_participation = Optional(str)
