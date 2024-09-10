@@ -52,6 +52,7 @@ if __name__ == "__main__":
         print(loader.errorString())
         sys.exit(-1)
 
-    controller = MainWindowController(window, db_manager)
+    controller = MainWindowController(window, db_manager, config)
+    app.aboutToQuit.connect(db_manager.synchronize)
 
     sys.exit(app.exec())

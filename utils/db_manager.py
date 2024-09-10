@@ -21,7 +21,7 @@ class Profile(db.Entity):
     professional_profile = Optional(str)  # Usado 'text' en el caso de largas cadenas
     full_name = Optional(str)
     birth_date = Optional(str)
-    age = Optional(int)
+    age = Optional(str)
     id_document_type = Optional(str)
     id_document_number = Optional(str)
     id_document_number_confirmation = Optional(str)
@@ -93,21 +93,14 @@ class DbManager:
             print("[DB_MANAGER] No se pudo establecer conexión con la base de datos remota")
             return
     
-        # Obtén los datos de Google Sheets como una lista de diccionarios
-        sheet_data: list[dict[str, Any]] = self.gspreadsheet.fetch_data()
-        local_data = self.fetch_profiles()
-
-        sheet_row_count = len(sheet_data)
-        local_row_count = len(local_data)
-            
-        if local_row_count > sheet_row_count:
-            self._update_gspreadsheet_with_local_db()
-            print("[DB_MANAGER] Actualizando datos en la nube")
-        elif sheet_row_count > local_row_count:
+        local_data = self.fetch_profiles()        
+        if len(local_data) == 0:
             self._update_local_db_with_gspreadsheet()
             print("[DB_MANAGER] Actualizando datos locales")
         else:
-            print("[DB_MANAGER] Base de datos actualizada")
+            self._update_gspreadsheet_with_local_db()
+            print("[DB_MANAGER] Actualizando datos en la nube")
+            
 
     @db_session
     def _update_local_db_with_gspreadsheet(self):
@@ -123,8 +116,12 @@ class DbManager:
 
     @db_session
     def _update_gspreadsheet_with_local_db(self):
+        sheet_data = self.gspreadsheet.get_raw_data()
         headers = Profile._columns_
-        values: list[list[Any]] = [list(headers)] + [[getattr(profile, header, "") for header in headers] for profile in Profile.select()]
+        values = [list(headers)] + [[getattr(profile, header, "") for header in headers] for profile in Profile.select()]
+        difference = len(sheet_data) - len(values)
+        if difference > 0:
+            values += [['']*len(sheet_data[0])] * difference
         self.gspreadsheet.update_sheet(values)
 
     @db_session

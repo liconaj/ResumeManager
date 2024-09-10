@@ -6,13 +6,159 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
-    <height>750</height>
+    <width>800</width>
+    <height>737</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Importar de</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="importFromComboBox">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>10</y>
+     <width>241</width>
+     <height>24</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTableView" name="noImportedTableView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>771</width>
+     <height>381</height>
+    </rect>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <attribute name="verticalHeaderVisible">
+    <bool>true</bool>
+   </attribute>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>241</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Perfiles no importados</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>490</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Perfiles ya existentes</string>
+   </property>
+  </widget>
+  <widget class="QTableView" name="alreadyImportedTableView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>510</y>
+     <width>771</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="importPushButton">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>470</y>
+     <width>121</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Importar perfil</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="resetPushButton">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>700</y>
+     <width>121</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Restaurar</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="loadPushButton">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>10</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cargar</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>10</y>
+     <width>91</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ordenar por</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="sortByComboBox">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>10</y>
+     <width>191</width>
+     <height>24</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

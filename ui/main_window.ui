@@ -36,7 +36,7 @@
      </rect>
     </property>
     <property name="placeholderText">
-     <string>ID</string>
+     <string>No.</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="advancedSearchLineEdit">
@@ -78,7 +78,7 @@
      <enum>Qt::ScrollBarAlwaysOn</enum>
     </property>
     <property name="horizontalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
+     <enum>Qt::ScrollBarAsNeeded</enum>
     </property>
     <property name="sizeAdjustPolicy">
      <enum>QAbstractScrollArea::AdjustToContents</enum>

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="focusPolicy">
-   <enum>Qt::FocusPolicy::ClickFocus</enum>
+   <enum>Qt::ClickFocus</enum>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -34,7 +34,7 @@
     <string>0000</string>
    </property>
    <property name="textFormat">
-    <enum>Qt::TextFormat::PlainText</enum>
+    <enum>Qt::PlainText</enum>
    </property>
   </widget>
   <widget class="QLabel" name="nameLabel">
@@ -97,13 +97,13 @@
     <cursorShape>ArrowCursor</cursorShape>
    </property>
    <property name="focusPolicy">
-    <enum>Qt::FocusPolicy::WheelFocus</enum>
+    <enum>Qt::WheelFocus</enum>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Shape::Box</enum>
+    <enum>QFrame::Box</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Shadow::Sunken</enum>
+    <enum>QFrame::Sunken</enum>
    </property>
    <property name="currentIndex">
     <number>1</number>
@@ -119,10 +119,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <widget class="QGraphicsView" name="photoGraphicsView">
       <property name="geometry">
@@ -196,10 +196,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <widget class="QLabel" name="label_4">
       <property name="geometry">
@@ -243,10 +243,10 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::NoFrame</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
+       <enum>QFrame::Raised</enum>
       </property>
       <widget class="QRadioButton" name="contactYesRadioButton">
        <property name="geometry">
@@ -285,10 +285,10 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::NoFrame</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
+       <enum>QFrame::Raised</enum>
       </property>
       <widget class="QRadioButton" name="participateYesRadioButton">
        <property name="geometry">
@@ -328,10 +328,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <widget class="QPushButton" name="importCVPushButton">
       <property name="geometry">
@@ -408,10 +408,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <widget class="QLabel" name="label_8">
       <property name="geometry">
@@ -441,10 +441,10 @@
 }</string>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::NoFrame</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>N/A</string>
@@ -460,7 +460,7 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::NoFrame</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="text">
        <string>Correo:</string>
@@ -477,10 +477,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <widget class="QLabel" name="label_11">
       <property name="geometry">
@@ -492,7 +492,7 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::NoFrame</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="text">
        <string>Motivaciones</string>
@@ -662,10 +662,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <widget class="QLabel" name="label_17">
       <property name="geometry">
@@ -739,16 +739,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::NoFrame</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Sunken</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string>-1 años</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QLabel" name="label_26">
@@ -811,10 +811,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <widget class="QLabel" name="label_15">
       <property name="geometry">
@@ -958,10 +958,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <widget class="QLabel" name="label_24">
       <property name="geometry">
@@ -1035,10 +1035,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Sunken</enum>
+      <enum>QFrame::Sunken</enum>
      </property>
      <widget class="QLabel" name="label_27">
       <property name="geometry">
@@ -1129,10 +1129,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Raised</enum>
+      <enum>QFrame::Raised</enum>
      </property>
      <widget class="QLabel" name="label_28">
       <property name="geometry">
@@ -1259,10 +1259,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Raised</enum>
+      <enum>QFrame::Raised</enum>
      </property>
      <widget class="QLabel" name="label_31">
       <property name="geometry">
@@ -1419,10 +1419,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Raised</enum>
+      <enum>QFrame::Raised</enum>
      </property>
      <widget class="QLabel" name="label_36">
       <property name="geometry">
@@ -1473,10 +1473,10 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::StyledPanel</enum>
+       <enum>QFrame::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
+       <enum>QFrame::Raised</enum>
       </property>
       <widget class="QComboBox" name="deg1LevelComboBox">
        <property name="geometry">
@@ -1544,10 +1544,10 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::StyledPanel</enum>
+       <enum>QFrame::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
+       <enum>QFrame::Raised</enum>
       </property>
       <widget class="QComboBox" name="deg2LevelComboBox">
        <property name="geometry">
@@ -1615,10 +1615,10 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::StyledPanel</enum>
+       <enum>QFrame::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
+       <enum>QFrame::Raised</enum>
       </property>
       <widget class="QComboBox" name="deg3LevelComboBox">
        <property name="geometry">
@@ -1687,10 +1687,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Raised</enum>
+      <enum>QFrame::Raised</enum>
      </property>
      <widget class="QLabel" name="label_42">
       <property name="geometry">
@@ -1741,10 +1741,10 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::StyledPanel</enum>
+       <enum>QFrame::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
+       <enum>QFrame::Raised</enum>
       </property>
       <widget class="QComboBox" name="mv1NameComboBox">
        <property name="geometry">
@@ -1754,6 +1754,9 @@
          <width>271</width>
          <height>24</height>
         </rect>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
        </property>
        <property name="placeholderText">
         <string>Nombre programa Manos Visibles</string>
@@ -1809,10 +1812,10 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::StyledPanel</enum>
+       <enum>QFrame::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
+       <enum>QFrame::Raised</enum>
       </property>
       <widget class="QComboBox" name="mv2NameComboBox">
        <property name="geometry">
@@ -1822,6 +1825,9 @@
          <width>271</width>
          <height>24</height>
         </rect>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
        </property>
        <property name="placeholderText">
         <string>Nombre programa Manos Visibles</string>
@@ -1877,10 +1883,10 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::StyledPanel</enum>
+       <enum>QFrame::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
+       <enum>QFrame::Raised</enum>
       </property>
       <widget class="QComboBox" name="mv3NameComboBox">
        <property name="geometry">
@@ -1890,6 +1896,9 @@
          <width>271</width>
          <height>24</height>
         </rect>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
        </property>
        <property name="placeholderText">
         <string>Nombre programa Manos Visibles</string>
@@ -1946,10 +1955,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::NoFrame</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Raised</enum>
+      <enum>QFrame::Raised</enum>
      </property>
      <widget class="QRadioButton" name="mlkNoRadioButton">
       <property name="geometry">
@@ -2001,10 +2010,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::NoFrame</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Raised</enum>
+      <enum>QFrame::Raised</enum>
      </property>
      <widget class="QRadioButton" name="fbNoRadioButton">
       <property name="geometry">
@@ -2058,10 +2067,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Raised</enum>
+      <enum>QFrame::Raised</enum>
      </property>
      <widget class="QLabel" name="label_59">
       <property name="geometry">
@@ -2201,10 +2210,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Raised</enum>
+      <enum>QFrame::Raised</enum>
      </property>
      <widget class="QPlainTextEdit" name="professionalProfilePlainTextEdit">
       <property name="geometry">
@@ -2253,10 +2262,10 @@
       </rect>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Shadow::Raised</enum>
+      <enum>QFrame::Raised</enum>
      </property>
      <widget class="QLabel" name="label_54">
       <property name="geometry">

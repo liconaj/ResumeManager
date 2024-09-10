@@ -1,10 +1,14 @@
 from PySide6.QtCore import Slot, QItemSelectionModel, QRegularExpression
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtGui import QIntValidator
+from controllers.import_form_controller import ImportFormController
 from models import ProfilesTableModel, FilteredProfilesModel
 from utils import DbManager
 
 import os, sys
+
+from utils.config import Config
+from utils.import_manager import ImportManager
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from profile_form_controller import ProfileFormController
 from warning_dialog_controller import WarningDialogController
@@ -12,15 +16,17 @@ from warning_dialog_controller import WarningDialogController
 class MainWindowController(QMainWindow):
     column_widths = [15, 140, 200, 40, 200, 150, 200, 150]
 
-    def __init__(self, window, db_manager: DbManager):
+    def __init__(self, window, db_manager: DbManager, config: Config):
         super().__init__()
-        self.window = window
+        self.window: QMainWindow = window
         self.window.setWindowTitle("Banco hojas de vida")
         self.db_manager = db_manager
+        self.config = config
         
         self.load_profiles()
         self.setup_table()
         self.setup_sync_button()
+        self.setup_import_button()
         self.setup_see_button()
         self.setup_delete_button()
         self.setup_results_label()
@@ -48,12 +54,16 @@ class MainWindowController(QMainWindow):
     def setup_sync_button(self):
         self.window.syncPushButton.clicked.connect(self.on_sync_button_clicked)
     
+    def setup_import_button(self):
+        self.window.importProfilePushButton.clicked.connect(self.on_import_button_clicked)
+    
     def setup_see_button(self):
         self.window.seeProfilePushButton.setEnabled(False)
         self.window.seeProfilePushButton.clicked.connect(self.on_see_profile_button_clicked)
     
     def setup_delete_button(self):
         self.window.deleteProfilePushButton.setEnabled(False)
+        self.window.deleteProfilePushButton.clicked.connect(self.on_delete_profile_button_clicked)
     
     def load_table_data(self):
         self.window.profilesTableView.setModel(self.filtered_profiles_model)
@@ -77,12 +87,18 @@ class MainWindowController(QMainWindow):
     def adjust_column_widths(self):
         for i in range(len(self.column_widths)):
             self.window.profilesTableView.setColumnWidth(i, self.column_widths[i])
-
-    def see_profile(self) -> None:
+    
+    def get_selected_profile_id(self):
         selected_row = self.window.profilesTableView.selectionModel().currentIndex().row()
         if selected_row < 0:
             return
         profile_id = self.filtered_profiles_model.index(selected_row, 0).data()
+        return profile_id
+    
+    def see_profile(self) -> None:
+        profile_id = self.get_selected_profile_id()
+        if profile_id is None:
+            return
         self.profile_form = ProfileFormController(self.db_manager, profile_id)
         self.profile_form.show() 
         self.profiles_model.update_data(self.db_manager.fetch_profiles())
@@ -91,8 +107,10 @@ class MainWindowController(QMainWindow):
     def on_selection_changed(self, selected, deselected):
         if self.window.profilesTableView.selectionModel().hasSelection():
             self.window.seeProfilePushButton.setEnabled(True)
+            self.window.deleteProfilePushButton.setEnabled(True)
         else:
             self.window.seeProfilePushButton.setEnabled(False)
+            self.window.deleteProfilePushButton.setEnabled(False)
 
     @Slot()
     def on_id_search_text_changed(self, text) -> None:
@@ -122,5 +140,21 @@ class MainWindowController(QMainWindow):
         self.see_profile()
     
     @Slot()
+    def on_delete_profile_button_clicked(self):
+        profile_id = self.get_selected_profile_id()
+        if profile_id is None:
+            return
+        self.db_manager.delete_profile_by_id(int(profile_id))
+        self.load_profiles()
+        self.update_results_label()
+    
+    @Slot()
     def on_table_double_clicked(self) -> None:
         self.see_profile()
+    
+    @Slot()
+    def on_import_button_clicked(self) -> None:
+        import_manager = ImportFormController(self.db_manager, self.config)
+        import_manager.show()
+        self.load_profiles()
+        self.update_results_label()

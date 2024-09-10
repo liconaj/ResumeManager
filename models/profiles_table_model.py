@@ -3,7 +3,7 @@ from typing import Any
 from utils import calc_age
 
 _view_headers = {
-    "id": "ID",
+    "id": "Id",
     "id_document_number": "Número de identidad",
     "full_name": "Nombres y apellidos",
     "age": "Edad",

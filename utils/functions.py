@@ -112,6 +112,8 @@ def format_as_title(text: str) -> str:
     text = normalize_string(text)
     small_words = {"de", "y", "en", "a", "el", "la", "los", "las", "del", "al", "con"}
     words = text.split()
+    if len(words) < 2:
+        return text.capitalize()
     capitalized_words = [words[0].capitalize()]
     for word in words[1:]:
         if word not in small_words:
@@ -180,6 +182,10 @@ def format_experience(experience: str) -> str:
 def format_bool_field(field: str) -> str:
     options = get_option("bool")
     return get_closest_match(options, field, "No")
+
+def get_file_extension(file: str) -> str:
+    _, ext = os.path.splitext(file)
+    return ext
 
 def int_to_base62(number):
     BASE62_ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"

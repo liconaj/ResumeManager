@@ -17,7 +17,7 @@ _fields_format_functions = {
     "authorize_participation": f.format_bool_field,
     "motivations": f.format_motivations,
     "professional_profile": _no_format,
-    "full_name": _no_format,
+    "full_name": f.format_as_title,
     "birth_date": _no_format,
     "id_document_type": f.format_identity_document_type,
     "id_document_number": _no_format,
@@ -75,6 +75,7 @@ class ImportManager:
         self.import_config = None
         self.config = config
         self.db_manager = db_manager
+        self.imported_profiles = self.db_manager.fetch_profiles()
 
     def _import_forms(self) -> list[dict[str, Any]]:
         return self.config.get("IMPORT_FORM")
@@ -95,6 +96,19 @@ class ImportManager:
                 return info
         return ""
     
+    def _get_profile_unique_id(self, profile: dict[str, str]) -> bool:
+        name_id = f.get_name_id(profile["full_name"])
+        unique_id = f.generate_deterministic_id(profile["id_document_type"])
+        return f"{name_id}-{unique_id}"
+    
+    def _is_already_imported(self, profile: dict[str, str]) -> bool:
+        profile_unique_id = self._get_profile_unique_id(profile)
+        
+        for p in self.imported_profiles:
+            if self._get_profile_unique_id(p) == profile_unique_id:
+                return True
+        return False
+    
     def _format_profile(self, row: list[Any]) -> dict[str, str]:
         profile = dict()
         for field, format_function in _fields_format_functions.items():
@@ -105,6 +119,7 @@ class ImportManager:
         profile["birth_municipality"] = birth_city
         profile["residence_department"] = recidence_department
         profile["residence_municipality"] = recidence_city
+        profile["_already_imported"] = self._is_already_imported(profile)
         return profile
 
     def set_import_form(self, index: int) -> dict[str, Any]:
