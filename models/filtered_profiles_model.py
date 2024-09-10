@@ -1,5 +1,7 @@
 from PySide6.QtCore import QSortFilterProxyModel, QRegularExpression, Qt
 
+from utils.functions import normalize_string
+
 class FilteredProfilesModel(QSortFilterProxyModel):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -25,5 +27,5 @@ class FilteredProfilesModel(QSortFilterProxyModel):
         source_model = self.sourceModel()
         index = source_model.index(source_row, self.filter_column, source_parent)
         value = source_model.data(index, self.filer_role) # Valor de la celda
-        matches = regex.match(str(value))
+        matches = regex.match(normalize_string(str(value)))
         return matches.hasMatch()

@@ -7,16 +7,21 @@ _view_headers = {
     "id_document_number": "Número de identidad",
     "full_name": "Nombres y apellidos",
     "age": "Edad",
+    "tag": "Etiqueta",
     "undergraduate_degree": "Pregrado",
     "ethnicity_or_culture": "Etnia",
     "occupation": "Ocupación",
-    "tag": "Etiqueta"
+    "has_degree": "Tiene postgrados",
+    "mv_program_1": "Programa Manos Visibles 1",
+    "mv_program_2": "Programa Manos Visibles 2",
+    "mv_program_3": "Programa Manos Visibles 3",
 }
 
 
 class ProfilesTableModel(QAbstractTableModel):
     def __init__(self, data: list[dict[str,Any]], parent=None) -> None:
         super().__init__(parent)
+        self.view_headers = _view_headers
         self.original_data = data
         self._headers = list(_view_headers.values())
         self.load_data()

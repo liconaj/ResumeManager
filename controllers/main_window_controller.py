@@ -1,5 +1,5 @@
 from PySide6.QtCore import Slot, QItemSelectionModel, QRegularExpression
-from PySide6.QtWidgets import QMainWindow
+from PySide6.QtWidgets import QMainWindow, QComboBox
 from PySide6.QtGui import QIntValidator
 from controllers.import_form_controller import ImportFormController
 from models import ProfilesTableModel, FilteredProfilesModel
@@ -8,13 +8,13 @@ from utils import DbManager
 import os, sys
 
 from utils.config import Config
-from utils.import_manager import ImportManager
+from utils.functions import normalize_string
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from profile_form_controller import ProfileFormController
 from warning_dialog_controller import WarningDialogController
 
 class MainWindowController(QMainWindow):
-    column_widths = [15, 140, 200, 40, 200, 150, 200, 150]
+    column_widths = [15, 140, 200, 40, 150, 200, 150, 150]
 
     def __init__(self, window, db_manager: DbManager, config: Config):
         super().__init__()
@@ -29,8 +29,10 @@ class MainWindowController(QMainWindow):
         self.setup_import_button()
         self.setup_see_button()
         self.setup_delete_button()
+        self.ssetup_clear_button()
         self.setup_results_label()
         self.setup_id_search_entry()
+        self.setup_filter_by()
         self.adjust_column_widths()
         self.update_results_label()
 
@@ -51,6 +53,18 @@ class MainWindowController(QMainWindow):
             self.warning_dialog_controller.show_warning_dialog("Advertencia",
                 "No se pudo establecer conexión de la base de datos remoto. Verifique su conexión a internet")
     
+    def setup_filter_by(self):
+        columns = self.profiles_model.view_headers.values()
+        self.filter_column = 1
+        self.filter_combobox: QComboBox = self.window.filterByComboBox
+        self.filter_combobox.addItems(columns)
+        self.filter_combobox.setCurrentIndex(self.filter_column)
+        self.filter_combobox.currentIndexChanged.connect(self.on_filter_selection_changed)
+        self.window.filterSearchLineEdit.textChanged.connect(self.on_search_filter_text_changed)
+    
+    def ssetup_clear_button(self):
+        self.window.clearPushButton.clicked.connect(self.on_clear_button_clicked)
+
     def setup_sync_button(self):
         self.window.syncPushButton.clicked.connect(self.on_sync_button_clicked)
     
@@ -102,6 +116,7 @@ class MainWindowController(QMainWindow):
         self.profile_form = ProfileFormController(self.db_manager, profile_id)
         self.profile_form.show() 
         self.profiles_model.update_data(self.db_manager.fetch_profiles())
+    
 
     @Slot(QItemSelectionModel)
     def on_selection_changed(self, selected, deselected):
@@ -111,12 +126,27 @@ class MainWindowController(QMainWindow):
         else:
             self.window.seeProfilePushButton.setEnabled(False)
             self.window.deleteProfilePushButton.setEnabled(False)
-
+    
     @Slot()
+    def on_filter_selection_changed(self):
+        index = self.filter_combobox.currentIndex()
+        self.filter_column = index
+
+    @Slot(str)
     def on_id_search_text_changed(self, text) -> None:
         text = str(int(text)) if text else ""
         filter_pattern = QRegularExpression(text, QRegularExpression.CaseInsensitiveOption)
         self.filtered_profiles_model.setFilterRegExColumn(filter_pattern, 0)
+        selection_model = self.window.profilesTableView.selectionModel()
+        selection_model.clearSelection()
+        if self.filtered_profiles_model.rowCount() > 0:
+            index = self.filtered_profiles_model.index(0, 0)
+            selection_model.select(index, QItemSelectionModel.Select | QItemSelectionModel.Rows)
+    
+    @Slot(str)
+    def on_search_filter_text_changed(self, text) -> None:
+        filter_pattern = QRegularExpression(normalize_string(text), QRegularExpression.CaseInsensitiveOption)
+        self.filtered_profiles_model.setFilterRegExColumn(filter_pattern, self.filter_column)
         selection_model = self.window.profilesTableView.selectionModel()
         selection_model.clearSelection()
         if self.filtered_profiles_model.rowCount() > 0:
@@ -138,6 +168,11 @@ class MainWindowController(QMainWindow):
     @Slot()
     def on_see_profile_button_clicked(self):
         self.see_profile()
+    
+    @Slot()
+    def on_clear_button_clicked(self):
+        self.window.idSearchLineEdit.setText("")
+        self.window.filterSearchLineEdit.setText("")
     
     @Slot()
     def on_delete_profile_button_clicked(self):

@@ -36,15 +36,15 @@
      </rect>
     </property>
     <property name="placeholderText">
-     <string>No.</string>
+     <string>Id</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="advancedSearchLineEdit">
+   <widget class="QLineEdit" name="filterSearchLineEdit">
     <property name="geometry">
      <rect>
       <x>140</x>
       <y>20</y>
-      <width>341</width>
+      <width>231</width>
       <height>31</height>
      </rect>
     </property>
@@ -101,6 +101,9 @@
     <property name="showGrid">
      <bool>true</bool>
     </property>
+    <property name="sortingEnabled">
+     <bool>true</bool>
+    </property>
     <property name="cornerButtonEnabled">
      <bool>true</bool>
     </property>
@@ -134,10 +137,10 @@
      <string>Ver perfil</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="searchItemComboBox">
+   <widget class="QComboBox" name="filterByComboBox">
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>470</x>
       <y>20</y>
       <width>161</width>
       <height>31</height>
@@ -179,6 +182,19 @@
     </property>
     <property name="text">
      <string>Eliminar</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="clearPushButton">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>20</y>
+      <width>80</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Limpiar</string>
     </property>
    </widget>
   </widget>
