@@ -74,7 +74,7 @@ def calc_age(birthdate_str: str) -> str:
 
 def format_identity_document_type(id_doc_type: str) -> str:
     id_doc_types_list = get_option("id_document_type")
-    return get_closest_match(id_doc_type, id_doc_types_list)
+    return get_closest_match(id_doc_types_list, id_doc_type)
 
 def format_motivations(motivations: str) -> str:
     motivations_formated = []
@@ -106,7 +106,7 @@ def format_ethnicity(ethnicity: str) -> str:
 
 def format_disability_condition(disability_condition: str) -> str:
     disabilities = get_option("disability_condition")
-    return get_close_matches(disabilities, disability_condition, "Ninguna")
+    return get_closest_match(disabilities, disability_condition, "Ninguna")
 
 def format_as_title(text: str) -> str:
     text = normalize_string(text)
@@ -138,7 +138,7 @@ def format_degree(degree: str) -> str:
     return get_closest_match(degree_levels, degree)
 
 def format_degree_status(status: str) -> str:
-    degree_levels = get_option("status")
+    degree_levels = get_option("degree_status")
     return get_closest_match(degree_levels, status)
 
 def format_linkedin(link: str) -> str:
@@ -160,18 +160,26 @@ def format_mv_program(program: str) -> str:
     programs_list = get_option("mv_program")
     return get_closest_match(programs_list, program)
 
+def format_occupation(occupation: str) -> str:
+    occupations_list = get_option("occupation")
+    return get_closest_match(occupations_list, occupation, occupation)
+
 def format_sector(sector: str) -> str:
     sectors_list = get_option("sector")
     sector = sector.replace("Sector ", "")
     return get_closest_match(sectors_list, sector)
 
-def format_rol(rol: str) -> str:
-    roles_list = get_option("rol")
-    return get_closest_match(roles_list, rol)
+def format_role(role: str) -> str:
+    roles_list = get_option("role")
+    return get_closest_match(roles_list, role)
 
 def format_experience(experience: str) -> str:
     exp_list = get_option("experience_duration")
     return get_closest_match(exp_list, experience)
+
+def format_bool_field(field: str) -> str:
+    options = get_option("bool")
+    return get_closest_match(options, field, "No")
 
 def int_to_base62(number):
     BASE62_ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -212,6 +220,7 @@ def format_file_name_with_id(id: str, prefix: str, ext: str) -> str:
         return ""
     new_file_name = prefix + "-" + id + ext
     return new_file_name
+
 
 def get_name_id(name: str) -> str:
     if not name:
