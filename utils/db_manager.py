@@ -153,3 +153,12 @@ class DbManager:
         else:
             # Si no hay ID, creamos un nuevo perfil
             Profile(**profile_data)
+    
+    @db_session
+    def delete_profile_by_id(self, profile_id: int) -> None:
+        profile = Profile.get(id=profile_id)
+        if profile:
+            profile.delete()
+            print(f"Profile with ID {profile_id} has been deleted.")
+        else:
+            print(f"Profile with ID {profile_id} does not exist.")
