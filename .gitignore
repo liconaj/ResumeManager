@@ -1,4 +1,3 @@
-config.txt
 config.json
 credentials.json
 .qtcreator/
@@ -7,6 +6,9 @@ credentials.json
 ui_*.py
 *.sqlite
 *.xlsx
+*.exe
+deployment
+test.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
