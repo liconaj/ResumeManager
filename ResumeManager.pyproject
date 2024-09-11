@@ -1,12 +1,30 @@
 {
     "files": [
-        "controllers/main_controller.py",
+        "config.txt",
+        "controllers/__init__.py",
+        "controllers/fields_controller.py",
+        "controllers/file_dialog_controller.py",
+        "controllers/import_form_controller.py",
+        "controllers/main_window_controller.py",
+        "controllers/message_box_controller.py",
+        "controllers/profile_form_controller.py",
+        "controllers/warning_dialog_controller.py",
+        "credentials.json",
+        "data/options.json",
         "main.py",
+        "models/__init__.py",
+        "models/filtered_profiles_model.py",
+        "models/observable_dict.py",
+        "models/profiles_table_model.py",
         "ui/import_form.ui",
+        "ui/main_window.ui",
         "ui/profile_form.ui",
         "utils/__init__.py",
         "utils/config.py",
         "utils/db_manager.py",
-        "utils/gspreadsheet.py"
+        "utils/drive_service.py",
+        "utils/functions.py",
+        "utils/gspreadsheet.py",
+        "utils/import_manager.py"
     ]
 }
