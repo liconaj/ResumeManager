@@ -1,20 +1,17 @@
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile, QIODevice, Slot, QDate
 from PySide6.QtWidgets import QDialog, QComboBox, QLineEdit, QFrame, QLabel
+from utils.config import Config
+from utils.drive_service import DriveService
+from utils.functions import get_option, match, open_link, gen_list_of_years
+from utils.db_manager import DbManager
+from models.observable_dict import ObservableDict
 
 import os
 import sys
-
-from utils.config import Config
-from utils.drive_service import DriveService
-
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from fields_controller import DeleteFilePushButtonController, ImportPushButtonController, LineEditController, PlainPushButtonController, PlainTextEditController, ComboBoxController, CheckBoxesFrameController, PlaceComboBoxesController, RadioButtonsFrameController, DateEditController, GraphicsViewController
-from message_box_controller import MessageBoxController
-from models import ObservableDict
-
-from utils.functions import get_option, match, open_link, gen_list_of_years
-from utils.db_manager import DbManager
+from controllers.fields_controller import DeleteFilePushButtonController, ImportPushButtonController, LineEditController, PlainPushButtonController, PlainTextEditController, ComboBoxController, CheckBoxesFrameController, PlaceComboBoxesController, RadioButtonsFrameController, DateEditController, GraphicsViewController
+from controllers.message_box_controller import MessageBoxController
 
 class ProfileFormController(QDialog):
     def __init__(self, db_manager: DbManager, id: int) -> None:

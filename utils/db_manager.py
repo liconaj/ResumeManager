@@ -5,8 +5,8 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from gspreadsheet import GSpreadSheet
-from functions import get_abspath_relative_root
+from utils.gspreadsheet import GSpreadSheet
+from utils.functions import get_abspath_relative_root
 
 FILE_PATH = get_abspath_relative_root("data/database.sqlite")
 

@@ -1,5 +1,5 @@
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtCore import QFile, QIODevice, QObject, Qt, Slot, Signal
+from PySide6.QtCore import QFile, QIODevice, Qt, Slot
 from PySide6.QtWidgets import QDialog, QComboBox, QTableView, QPushButton
 from PySide6.QtCore import QAbstractTableModel, Qt, QModelIndex
 from PySide6.QtCore import QSortFilterProxyModel
@@ -8,12 +8,11 @@ from typing import Any
 import os
 import sys
 
-from utils.functions import format_file_name_with_id, generate_deterministic_id, get_name_id
-
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from message_box_controller import MessageBoxController
 
-from utils import ImportManager, DbManager, Config, DriveService
+from utils.import_manager import ImportManager
+from utils.db_manager import DbManager
+from utils.config import Config
 
 
 _display_headers = [

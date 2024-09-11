@@ -23,7 +23,7 @@ class GSpreadSheet:
             self.available = False
             return None
         try:
-            return build('sheets', 'v4', credentials=self.creds)
+            return build('sheets', 'v4', credentials=self.creds, static_discovery=False)
         except HTTPError as _:
             self.available = False
 

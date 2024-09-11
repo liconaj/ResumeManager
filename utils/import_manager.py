@@ -4,10 +4,10 @@ from typing import Any
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-import functions as f
-from config import Config
-from gspreadsheet import GSpreadSheet
-from db_manager import DbManager
+import utils.functions as f
+from utils.config import Config
+from utils.gspreadsheet import GSpreadSheet
+from utils.db_manager import DbManager
 
 
 _no_format = lambda x : x

@@ -8,7 +8,7 @@ class FileDialogController(QObject):
         self.file_type = file_type.lower()
 
     def open_file_dialog(self) -> str:
-        options = QFileDialog.Options()
+        # options = QFileDialog.Options()
         # options |= QFileDialog.DontUseNativeDialog  # Evita usar el diálogo nativo (opcional)
 
         # Configuramos los filtros basados en el tipo de archivo
@@ -23,7 +23,7 @@ class FileDialogController(QObject):
 
         # Abrir el diálogo y permitir seleccionar un archivo
         file_name, _ = QFileDialog.getOpenFileName(
-            None, "Select File", user_home_dir, file_filter, options=options
+            None, "Select File", user_home_dir, file_filter
         )
 
         return file_name  # Retorna la ruta del archivo seleccionado o una cadena vacía si se cancela

@@ -1,0 +1,7 @@
+version = 1.0
+name = Resume Manager
+description = Administrador banco hojas de vida Talento Visible
+copyright = (C) 2024 Josué Licona
+company = Manos Visibles
+filename = ResumeManager.exe
+icon-windows = data/icon.ico

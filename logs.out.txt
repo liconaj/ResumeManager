@@ -1,0 +1,3 @@
+[ENVIRONMENT] Setting QT_FONT_DPI to 96
+[DB_MANAGER] Actualizando datos en la nube
+[DB_MANAGER] Actualizando datos en la nube

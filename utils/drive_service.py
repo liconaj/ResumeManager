@@ -14,8 +14,8 @@ from  PIL import Image
 import pillow_heif
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from config import Config
-from functions import get_abspath_relative_root, get_file_extension
+from utils.config import Config
+from utils.functions import get_abspath_relative_root, get_file_extension
 
 pillow_heif.register_heif_opener()
 pillow_heif.register_avif_opener()
@@ -38,7 +38,7 @@ class DriveService:
             self.available = False
             return None
         try:
-            return build('drive', 'v3', credentials=self.creds)
+            return build('drive', 'v3', credentials=self.creds, static_discovery=False)
         except HTTPError as _:
             self.available = False
 

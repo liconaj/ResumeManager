@@ -1,18 +1,18 @@
 from PySide6.QtCore import Slot, QItemSelectionModel, QRegularExpression
 from PySide6.QtWidgets import QMainWindow, QComboBox
 from PySide6.QtGui import QIntValidator
-from controllers.import_form_controller import ImportFormController
-from controllers.message_box_controller import MessageBoxController
-from models import ProfilesTableModel, FilteredProfilesModel
-from utils import DbManager
-
-import os, sys
-
+from models.profiles_table_model import ProfilesTableModel
+from models.filtered_profiles_model import FilteredProfilesModel
+from utils.db_manager import DbManager
 from utils.config import Config
 from utils.functions import normalize_string
+
+import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from profile_form_controller import ProfileFormController
-from warning_dialog_controller import WarningDialogController
+from controllers.profile_form_controller import ProfileFormController
+from controllers.warning_dialog_controller import WarningDialogController
+from controllers.import_form_controller import ImportFormController
+from controllers.message_box_controller import MessageBoxController
 
 class MainWindowController(QMainWindow):
     column_widths = [15, 140, 200, 40, 150, 200, 150, 150]

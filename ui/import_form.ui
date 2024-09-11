@@ -87,7 +87,7 @@
      <x>10</x>
      <y>510</y>
      <width>771</width>
-     <height>181</height>
+     <height>211</height>
     </rect>
    </property>
    <property name="selectionMode">
@@ -108,19 +108,6 @@
    </property>
    <property name="text">
     <string>Importar perfil</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="resetPushButton">
-   <property name="geometry">
-    <rect>
-     <x>660</x>
-     <y>700</y>
-     <width>121</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Restaurar</string>
    </property>
   </widget>
   <widget class="QPushButton" name="loadPushButton">
